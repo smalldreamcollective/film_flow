@@ -1,0 +1,17 @@
+<.header>
+  Camera <%= @camera.id %>
+  <:subtitle>This is a camera record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/cameras/#{@camera}/edit"}>
+      <.button>Edit camera</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @camera.name %></:item>
+  <:item title="Brand"><%= @camera.brand %></:item>
+  <:item title="Model"><%= @camera.model %></:item>
+</.list>
+
+<.back navigate={~p"/cameras"}>Back to cameras</.back>

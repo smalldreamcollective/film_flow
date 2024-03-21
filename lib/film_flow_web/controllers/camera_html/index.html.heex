@@ -1,0 +1,25 @@
+<.header>
+  Listing Cameras
+  <:actions>
+    <.link href={~p"/cameras/new"}>
+      <.button>New Camera</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="cameras" rows={@cameras} row_click={&JS.navigate(~p"/cameras/#{&1}")}>
+  <:col :let={camera} label="Name"><%= camera.name %></:col>
+  <:col :let={camera} label="Brand"><%= camera.brand %></:col>
+  <:col :let={camera} label="Model"><%= camera.model %></:col>
+  <:action :let={camera}>
+    <div class="sr-only">
+      <.link navigate={~p"/cameras/#{camera}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/cameras/#{camera}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={camera}>
+    <.link href={~p"/cameras/#{camera}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

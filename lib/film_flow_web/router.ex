@@ -1,6 +1,8 @@
 defmodule FilmFlowWeb.Router do
   use FilmFlowWeb, :router
 
+  import FilmFlowWeb.UserAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,7 @@ defmodule FilmFlowWeb.Router do
     plug :put_root_layout, html: {FilmFlowWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
   end
 
   pipeline :api do
@@ -18,6 +21,15 @@ defmodule FilmFlowWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    # GET     /users           HelloWeb.UserController :index
+    # GET     /users/:id/edit  HelloWeb.UserController :edit
+    # GET     /users/new       HelloWeb.UserController :new
+    # GET     /users/:id       HelloWeb.UserController :show
+    # POST    /users           HelloWeb.UserController :create
+    # PATCH   /users/:id       HelloWeb.UserController :update
+    # PUT     /users/:id       HelloWeb.UserController :update
+    # DELETE  /users/:id       HelloWeb.UserController :delete
+
   end
 
   # Other scopes may use custom stacks.
@@ -39,6 +51,54 @@ defmodule FilmFlowWeb.Router do
 
       live_dashboard "/dashboard", metrics: FilmFlowWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+  end
+
+  ## Authentication routes
+
+  scope "/", FilmFlowWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    live_session :redirect_if_user_is_authenticated,
+      on_mount: [{FilmFlowWeb.UserAuth, :redirect_if_user_is_authenticated}] do
+      live "/users/register", UserRegistrationLive, :new
+      live "/users/log_in", UserLoginLive, :new
+      live "/users/reset_password", UserForgotPasswordLive, :new
+      live "/users/reset_password/:token", UserResetPasswordLive, :edit
+    end
+
+    post "/users/log_in", UserSessionController, :create
+  end
+
+  scope "/", FilmFlowWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :require_authenticated_user,
+      on_mount: [{FilmFlowWeb.UserAuth, :ensure_authenticated}] do
+      live "/users/settings", UserSettingsLive, :edit
+      live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
+      get "/cameras", CameraController, :index
+      get "/cameras/:id/edit", CameraController, :edit
+      get "/cameras/new", CameraController, :new
+      get "/cameras/:id", CameraController, :show
+      post "/cameras", CameraController, :create
+      patch "/cameras/:id", CameraController, :update
+      put "/cameras/:id", CameraController, :update
+      delete "/cameras/:id", CameraController, :delete
+
+    end
+  end
+
+  scope "/", FilmFlowWeb do
+    pipe_through [:browser]
+
+    delete "/users/log_out", UserSessionController, :delete
+
+    live_session :current_user,
+      on_mount: [{FilmFlowWeb.UserAuth, :mount_current_user}] do
+      live "/users/confirm/:token", UserConfirmationLive, :edit
+      live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
   end
 end

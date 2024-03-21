@@ -1,0 +1,8 @@
+<.header>
+  Edit Camera <%= @camera.id %>
+  <:subtitle>Use this form to manage camera records in your database.</:subtitle>
+</.header>
+
+<.camera_form changeset={@changeset} action={~p"/cameras/#{@camera}"} />
+
+<.back navigate={~p"/cameras"}>Back to cameras</.back>
