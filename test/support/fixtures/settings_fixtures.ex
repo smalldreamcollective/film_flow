@@ -19,4 +19,19 @@ defmodule FilmFlow.SettingsFixtures do
 
     camera
   end
+
+  @doc """
+  Generate a manufacturer.
+  """
+  def manufacturer_fixture(attrs \\ %{}) do
+    {:ok, manufacturer} =
+      attrs
+      |> Enum.into(%{
+        name: "some name",
+        url: "some url"
+      })
+      |> FilmFlow.Settings.create_manufacturer()
+
+    manufacturer
+  end
 end
