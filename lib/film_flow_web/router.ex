@@ -87,6 +87,15 @@ defmodule FilmFlowWeb.Router do
       put "/cameras/:id", CameraController, :update
       delete "/cameras/:id", CameraController, :delete
 
+      get "/manufacturers", ManufacturerController, :index
+      get "/manufacturers/:id/edit", ManufacturerController, :edit
+      get "/manufacturers/new", ManufacturerController, :new
+      get "/manufacturers/:id", ManufacturerController, :show
+      post "/manufacturers", ManufacturerController, :create
+      patch "/manufacturers/:id", ManufacturerController, :update
+      put "/manufacturers/:id", ManufacturerController, :update
+      delete "/manufacturers/:id", ManufacturerController, :delete
+
     end
   end
 
