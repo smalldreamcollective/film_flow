@@ -486,4 +486,100 @@ defmodule FilmFlow.Settings do
   def change_iso(%ISO{} = iso, attrs \\ %{}) do
     ISO.changeset(iso, attrs)
   end
+
+  alias FilmFlow.Settings.FilmType
+
+  @doc """
+  Returns the list of film_type.
+
+  ## Examples
+
+      iex> list_film_type()
+      [%FilmType{}, ...]
+
+  """
+  def list_film_type do
+    Repo.all(FilmType)
+  end
+
+  @doc """
+  Gets a single film_type.
+
+  Raises `Ecto.NoResultsError` if the Film type does not exist.
+
+  ## Examples
+
+      iex> get_film_type!(123)
+      %FilmType{}
+
+      iex> get_film_type!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_film_type!(id), do: Repo.get!(FilmType, id)
+
+  @doc """
+  Creates a film_type.
+
+  ## Examples
+
+      iex> create_film_type(%{field: value})
+      {:ok, %FilmType{}}
+
+      iex> create_film_type(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_film_type(attrs \\ %{}) do
+    %FilmType{}
+    |> FilmType.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a film_type.
+
+  ## Examples
+
+      iex> update_film_type(film_type, %{field: new_value})
+      {:ok, %FilmType{}}
+
+      iex> update_film_type(film_type, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_film_type(%FilmType{} = film_type, attrs) do
+    film_type
+    |> FilmType.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a film_type.
+
+  ## Examples
+
+      iex> delete_film_type(film_type)
+      {:ok, %FilmType{}}
+
+      iex> delete_film_type(film_type)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_film_type(%FilmType{} = film_type) do
+    Repo.delete(film_type)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking film_type changes.
+
+  ## Examples
+
+      iex> change_film_type(film_type)
+      %Ecto.Changeset{data: %FilmType{}}
+
+  """
+  def change_film_type(%FilmType{} = film_type, attrs \\ %{}) do
+    FilmType.changeset(film_type, attrs)
+  end
 end
