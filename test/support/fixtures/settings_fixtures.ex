@@ -97,4 +97,19 @@ defmodule FilmFlow.SettingsFixtures do
 
     film_type
   end
+
+  @doc """
+  Generate a film.
+  """
+  def film_fixture(attrs \\ %{}) do
+    {:ok, film} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        name: "some name"
+      })
+      |> FilmFlow.Settings.create_film()
+
+    film
+  end
 end

@@ -346,4 +346,60 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_film_type(film_type)
     end
   end
+
+  describe "film" do
+    alias FilmFlow.Settings.Film
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{name: nil, description: nil}
+
+    test "list_film/0 returns all film" do
+      film = film_fixture()
+      assert Settings.list_film() == [film]
+    end
+
+    test "get_film!/1 returns the film with given id" do
+      film = film_fixture()
+      assert Settings.get_film!(film.id) == film
+    end
+
+    test "create_film/1 with valid data creates a film" do
+      valid_attrs = %{name: "some name", description: "some description"}
+
+      assert {:ok, %Film{} = film} = Settings.create_film(valid_attrs)
+      assert film.name == "some name"
+      assert film.description == "some description"
+    end
+
+    test "create_film/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_film(@invalid_attrs)
+    end
+
+    test "update_film/2 with valid data updates the film" do
+      film = film_fixture()
+      update_attrs = %{name: "some updated name", description: "some updated description"}
+
+      assert {:ok, %Film{} = film} = Settings.update_film(film, update_attrs)
+      assert film.name == "some updated name"
+      assert film.description == "some updated description"
+    end
+
+    test "update_film/2 with invalid data returns error changeset" do
+      film = film_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_film(film, @invalid_attrs)
+      assert film == Settings.get_film!(film.id)
+    end
+
+    test "delete_film/1 deletes the film" do
+      film = film_fixture()
+      assert {:ok, %Film{}} = Settings.delete_film(film)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_film!(film.id) end
+    end
+
+    test "change_film/1 returns a film changeset" do
+      film = film_fixture()
+      assert %Ecto.Changeset{} = Settings.change_film(film)
+    end
+  end
 end

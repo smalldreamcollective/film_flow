@@ -105,6 +105,15 @@ defmodule FilmFlowWeb.Router do
       put "/lenses/:id", LensController, :update
       delete "/lenses/:id", LensController, :delete
 
+      get "/film", FilmController, :index
+      get "/film/:id/edit", FilmController, :edit
+      get "/film/new", FilmController, :new
+      get "/film/:id", FilmController, :show
+      post "/film", FilmController, :create
+      patch "/film/:id", FilmController, :update
+      put "/film/:id", FilmController, :update
+      delete "/film/:id", FilmController, :delete
+
       get "/format", FormatController, :index
       get "/format/:id/edit", FormatController, :edit
       get "/format/new", FormatController, :new
