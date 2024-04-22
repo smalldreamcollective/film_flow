@@ -1108,4 +1108,66 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_film_roll(film_roll)
     end
   end
+
+  describe "exposures" do
+    alias FilmFlow.Settings.Exposure
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{frame: nil, subject: nil, date_exposed: nil, lighting_condition: nil, notes: nil}
+
+    test "list_exposures/0 returns all exposures" do
+      exposure = exposure_fixture()
+      assert Settings.list_exposures() == [exposure]
+    end
+
+    test "get_exposure!/1 returns the exposure with given id" do
+      exposure = exposure_fixture()
+      assert Settings.get_exposure!(exposure.id) == exposure
+    end
+
+    test "create_exposure/1 with valid data creates a exposure" do
+      valid_attrs = %{frame: 42, subject: "some subject", date_exposed: ~U[2024-04-21 23:00:00Z], lighting_condition: "some lighting_condition", notes: "some notes"}
+
+      assert {:ok, %Exposure{} = exposure} = Settings.create_exposure(valid_attrs)
+      assert exposure.frame == 42
+      assert exposure.subject == "some subject"
+      assert exposure.date_exposed == ~U[2024-04-21 23:00:00Z]
+      assert exposure.lighting_condition == "some lighting_condition"
+      assert exposure.notes == "some notes"
+    end
+
+    test "create_exposure/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_exposure(@invalid_attrs)
+    end
+
+    test "update_exposure/2 with valid data updates the exposure" do
+      exposure = exposure_fixture()
+      update_attrs = %{frame: 43, subject: "some updated subject", date_exposed: ~U[2024-04-22 23:00:00Z], lighting_condition: "some updated lighting_condition", notes: "some updated notes"}
+
+      assert {:ok, %Exposure{} = exposure} = Settings.update_exposure(exposure, update_attrs)
+      assert exposure.frame == 43
+      assert exposure.subject == "some updated subject"
+      assert exposure.date_exposed == ~U[2024-04-22 23:00:00Z]
+      assert exposure.lighting_condition == "some updated lighting_condition"
+      assert exposure.notes == "some updated notes"
+    end
+
+    test "update_exposure/2 with invalid data returns error changeset" do
+      exposure = exposure_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_exposure(exposure, @invalid_attrs)
+      assert exposure == Settings.get_exposure!(exposure.id)
+    end
+
+    test "delete_exposure/1 deletes the exposure" do
+      exposure = exposure_fixture()
+      assert {:ok, %Exposure{}} = Settings.delete_exposure(exposure)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_exposure!(exposure.id) end
+    end
+
+    test "change_exposure/1 returns a exposure changeset" do
+      exposure = exposure_fixture()
+      assert %Ecto.Changeset{} = Settings.change_exposure(exposure)
+    end
+  end
 end

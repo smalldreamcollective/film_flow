@@ -309,4 +309,22 @@ defmodule FilmFlow.SettingsFixtures do
 
     film_roll
   end
+
+  @doc """
+  Generate a exposure.
+  """
+  def exposure_fixture(attrs \\ %{}) do
+    {:ok, exposure} =
+      attrs
+      |> Enum.into(%{
+        date_exposed: ~U[2024-04-21 23:00:00Z],
+        frame: 42,
+        lighting_condition: "some lighting_condition",
+        notes: "some notes",
+        subject: "some subject"
+      })
+      |> FilmFlow.Settings.create_exposure()
+
+    exposure
+  end
 end

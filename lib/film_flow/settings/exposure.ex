@@ -17,8 +17,8 @@ defmodule FilmFlow.Settings.Exposure do
     field :filter, :id
     field :tripod, :id
     field :holder, :id
-    field :back, :id
-    field :roll, :id
+    field :film_back, :id
+    field :film_roll, :id
 
     timestamps(type: :utc_datetime)
   end

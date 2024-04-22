@@ -17,8 +17,8 @@ defmodule FilmFlow.Repo.Migrations.CreateExposures do
       add :filter, references(:filters, on_delete: :nothing)
       add :tripod, references(:tripods, on_delete: :nothing)
       add :holder, references(:holders, on_delete: :nothing)
-      add :back, references(:backs, on_delete: :nothing)
-      add :roll, references(:rolls, on_delete: :nothing)
+      add :film_back, references(:film_backs, on_delete: :nothing)
+      add :film_roll, references(:film_rolls, on_delete: :nothing)
 
       timestamps(type: :utc_datetime)
     end
@@ -32,7 +32,7 @@ defmodule FilmFlow.Repo.Migrations.CreateExposures do
     create index(:exposures, [:filter])
     create index(:exposures, [:tripod])
     create index(:exposures, [:holder])
-    create index(:exposures, [:back])
-    create index(:exposures, [:roll])
+    create index(:exposures, [:film_back])
+    create index(:exposures, [:film_roll])
   end
 end
