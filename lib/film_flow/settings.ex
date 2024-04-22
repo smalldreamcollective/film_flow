@@ -774,4 +774,100 @@ defmodule FilmFlow.Settings do
   def change_shutter_speed(%ShutterSpeed{} = shutter_speed, attrs \\ %{}) do
     ShutterSpeed.changeset(shutter_speed, attrs)
   end
+
+  alias FilmFlow.Settings.Aperture
+
+  @doc """
+  Returns the list of aperture.
+
+  ## Examples
+
+      iex> list_aperture()
+      [%Aperture{}, ...]
+
+  """
+  def list_aperture do
+    Repo.all(Aperture)
+  end
+
+  @doc """
+  Gets a single aperture.
+
+  Raises `Ecto.NoResultsError` if the Aperture does not exist.
+
+  ## Examples
+
+      iex> get_aperture!(123)
+      %Aperture{}
+
+      iex> get_aperture!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_aperture!(id), do: Repo.get!(Aperture, id)
+
+  @doc """
+  Creates a aperture.
+
+  ## Examples
+
+      iex> create_aperture(%{field: value})
+      {:ok, %Aperture{}}
+
+      iex> create_aperture(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_aperture(attrs \\ %{}) do
+    %Aperture{}
+    |> Aperture.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a aperture.
+
+  ## Examples
+
+      iex> update_aperture(aperture, %{field: new_value})
+      {:ok, %Aperture{}}
+
+      iex> update_aperture(aperture, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_aperture(%Aperture{} = aperture, attrs) do
+    aperture
+    |> Aperture.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a aperture.
+
+  ## Examples
+
+      iex> delete_aperture(aperture)
+      {:ok, %Aperture{}}
+
+      iex> delete_aperture(aperture)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_aperture(%Aperture{} = aperture) do
+    Repo.delete(aperture)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking aperture changes.
+
+  ## Examples
+
+      iex> change_aperture(aperture)
+      %Ecto.Changeset{data: %Aperture{}}
+
+  """
+  def change_aperture(%Aperture{} = aperture, attrs \\ %{}) do
+    Aperture.changeset(aperture, attrs)
+  end
 end

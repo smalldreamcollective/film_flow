@@ -1,0 +1,23 @@
+<.header>
+  Listing Aperture
+  <:actions>
+    <.link href={~p"/aperture/new"}>
+      <.button>New Aperture</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="aperture" rows={@aperture_collection} row_click={&JS.navigate(~p"/aperture/#{&1}")}>
+  <:col :let={aperture} label="Value"><%= aperture.value %></:col>
+  <:action :let={aperture}>
+    <div class="sr-only">
+      <.link navigate={~p"/aperture/#{aperture}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/aperture/#{aperture}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={aperture}>
+    <.link href={~p"/aperture/#{aperture}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
