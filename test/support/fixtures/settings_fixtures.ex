@@ -158,4 +158,19 @@ defmodule FilmFlow.SettingsFixtures do
 
     tripod
   end
+
+  @doc """
+  Generate a zone.
+  """
+  def zone_fixture(attrs \\ %{}) do
+    {:ok, zone} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        name: "some name"
+      })
+      |> FilmFlow.Settings.create_zone()
+
+    zone
+  end
 end

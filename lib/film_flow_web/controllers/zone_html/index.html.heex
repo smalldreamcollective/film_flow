@@ -1,0 +1,24 @@
+<.header>
+  Listing Zones
+  <:actions>
+    <.link href={~p"/zones/new"}>
+      <.button>New Zone</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="zones" rows={@zones} row_click={&JS.navigate(~p"/zones/#{&1}")}>
+  <:col :let={zone} label="Name"><%= zone.name %></:col>
+  <:col :let={zone} label="Description"><%= zone.description %></:col>
+  <:action :let={zone}>
+    <div class="sr-only">
+      <.link navigate={~p"/zones/#{zone}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/zones/#{zone}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={zone}>
+    <.link href={~p"/zones/#{zone}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
