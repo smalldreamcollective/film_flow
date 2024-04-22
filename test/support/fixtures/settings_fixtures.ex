@@ -189,4 +189,18 @@ defmodule FilmFlow.SettingsFixtures do
 
     photographer
   end
+
+  @doc """
+  Generate a location.
+  """
+  def location_fixture(attrs \\ %{}) do
+    {:ok, location} =
+      attrs
+      |> Enum.into(%{
+        name: "some name"
+      })
+      |> FilmFlow.Settings.create_location()
+
+    location
+  end
 end
