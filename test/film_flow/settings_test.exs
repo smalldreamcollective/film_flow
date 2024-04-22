@@ -802,4 +802,66 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_exposure_record(exposure_record)
     end
   end
+
+  describe "filters" do
+    alias FilmFlow.Settings.Filter
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{description: nil, model: nil, years: nil, url_manual: nil, url_additional_info: nil}
+
+    test "list_filters/0 returns all filters" do
+      filter = filter_fixture()
+      assert Settings.list_filters() == [filter]
+    end
+
+    test "get_filter!/1 returns the filter with given id" do
+      filter = filter_fixture()
+      assert Settings.get_filter!(filter.id) == filter
+    end
+
+    test "create_filter/1 with valid data creates a filter" do
+      valid_attrs = %{description: "some description", model: "some model", years: "some years", url_manual: "some url_manual", url_additional_info: "some url_additional_info"}
+
+      assert {:ok, %Filter{} = filter} = Settings.create_filter(valid_attrs)
+      assert filter.description == "some description"
+      assert filter.model == "some model"
+      assert filter.years == "some years"
+      assert filter.url_manual == "some url_manual"
+      assert filter.url_additional_info == "some url_additional_info"
+    end
+
+    test "create_filter/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_filter(@invalid_attrs)
+    end
+
+    test "update_filter/2 with valid data updates the filter" do
+      filter = filter_fixture()
+      update_attrs = %{description: "some updated description", model: "some updated model", years: "some updated years", url_manual: "some updated url_manual", url_additional_info: "some updated url_additional_info"}
+
+      assert {:ok, %Filter{} = filter} = Settings.update_filter(filter, update_attrs)
+      assert filter.description == "some updated description"
+      assert filter.model == "some updated model"
+      assert filter.years == "some updated years"
+      assert filter.url_manual == "some updated url_manual"
+      assert filter.url_additional_info == "some updated url_additional_info"
+    end
+
+    test "update_filter/2 with invalid data returns error changeset" do
+      filter = filter_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_filter(filter, @invalid_attrs)
+      assert filter == Settings.get_filter!(filter.id)
+    end
+
+    test "delete_filter/1 deletes the filter" do
+      filter = filter_fixture()
+      assert {:ok, %Filter{}} = Settings.delete_filter(filter)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_filter!(filter.id) end
+    end
+
+    test "change_filter/1 returns a filter changeset" do
+      filter = filter_fixture()
+      assert %Ecto.Changeset{} = Settings.change_filter(filter)
+    end
+  end
 end

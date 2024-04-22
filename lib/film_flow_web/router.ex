@@ -203,6 +203,15 @@ defmodule FilmFlowWeb.Router do
       patch "/exposure_records/:id", ExposureRecordController, :update
       put "/exposure_records/:id", ExposureRecordController, :update
       delete "/exposure_records/:id", ExposureRecordController, :delete
+
+      get "/filters", FilterController, :index
+      get "/filters/:id/edit", FilterController, :edit
+      get "/filters/new", FilterController, :new
+      get "/filters/:id", FilterController, :show
+      post "/filters", FilterController, :create
+      patch "/filters/:id", FilterController, :update
+      put "/filters/:id", FilterController, :update
+      delete "/filters/:id", FilterController, :delete
     end
   end
 

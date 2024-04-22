@@ -1,0 +1,27 @@
+<.header>
+  Listing Filters
+  <:actions>
+    <.link href={~p"/filters/new"}>
+      <.button>New Filter</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="filters" rows={@filters} row_click={&JS.navigate(~p"/filters/#{&1}")}>
+  <:col :let={filter} label="Model"><%= filter.model %></:col>
+  <:col :let={filter} label="Description"><%= filter.description %></:col>
+  <:col :let={filter} label="Years"><%= filter.years %></:col>
+  <:col :let={filter} label="Url manual"><%= filter.url_manual %></:col>
+  <:col :let={filter} label="Url additional info"><%= filter.url_additional_info %></:col>
+  <:action :let={filter}>
+    <div class="sr-only">
+      <.link navigate={~p"/filters/#{filter}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/filters/#{filter}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={filter}>
+    <.link href={~p"/filters/#{filter}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
