@@ -864,4 +864,66 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_filter(filter)
     end
   end
+
+  describe "holders" do
+    alias FilmFlow.Settings.Holder
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{description: nil, model: nil, years: nil, url_manual: nil, url_additional_info: nil}
+
+    test "list_holders/0 returns all holders" do
+      holder = holder_fixture()
+      assert Settings.list_holders() == [holder]
+    end
+
+    test "get_holder!/1 returns the holder with given id" do
+      holder = holder_fixture()
+      assert Settings.get_holder!(holder.id) == holder
+    end
+
+    test "create_holder/1 with valid data creates a holder" do
+      valid_attrs = %{description: "some description", model: "some model", years: "some years", url_manual: "some url_manual", url_additional_info: "some url_additional_info"}
+
+      assert {:ok, %Holder{} = holder} = Settings.create_holder(valid_attrs)
+      assert holder.description == "some description"
+      assert holder.model == "some model"
+      assert holder.years == "some years"
+      assert holder.url_manual == "some url_manual"
+      assert holder.url_additional_info == "some url_additional_info"
+    end
+
+    test "create_holder/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_holder(@invalid_attrs)
+    end
+
+    test "update_holder/2 with valid data updates the holder" do
+      holder = holder_fixture()
+      update_attrs = %{description: "some updated description", model: "some updated model", years: "some updated years", url_manual: "some updated url_manual", url_additional_info: "some updated url_additional_info"}
+
+      assert {:ok, %Holder{} = holder} = Settings.update_holder(holder, update_attrs)
+      assert holder.description == "some updated description"
+      assert holder.model == "some updated model"
+      assert holder.years == "some updated years"
+      assert holder.url_manual == "some updated url_manual"
+      assert holder.url_additional_info == "some updated url_additional_info"
+    end
+
+    test "update_holder/2 with invalid data returns error changeset" do
+      holder = holder_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_holder(holder, @invalid_attrs)
+      assert holder == Settings.get_holder!(holder.id)
+    end
+
+    test "delete_holder/1 deletes the holder" do
+      holder = holder_fixture()
+      assert {:ok, %Holder{}} = Settings.delete_holder(holder)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_holder!(holder.id) end
+    end
+
+    test "change_holder/1 returns a holder changeset" do
+      holder = holder_fixture()
+      assert %Ecto.Changeset{} = Settings.change_holder(holder)
+    end
+  end
 end

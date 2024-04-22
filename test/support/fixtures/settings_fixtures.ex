@@ -239,4 +239,22 @@ defmodule FilmFlow.SettingsFixtures do
 
     filter
   end
+
+  @doc """
+  Generate a holder.
+  """
+  def holder_fixture(attrs \\ %{}) do
+    {:ok, holder} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        model: "some model",
+        url_additional_info: "some url_additional_info",
+        url_manual: "some url_manual",
+        years: "some years"
+      })
+      |> FilmFlow.Settings.create_holder()
+
+    holder
+  end
 end
