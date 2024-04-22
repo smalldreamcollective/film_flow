@@ -1,0 +1,17 @@
+<.header>
+  Photographer <%= @photographer.id %>
+  <:subtitle>This is a photographer record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/photographers/#{@photographer}/edit"}>
+      <.button>Edit photographer</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="First name"><%= @photographer.first_name %></:item>
+  <:item title="Middle name"><%= @photographer.middle_name %></:item>
+  <:item title="Last name"><%= @photographer.last_name %></:item>
+</.list>
+
+<.back navigate={~p"/photographers"}>Back to photographers</.back>

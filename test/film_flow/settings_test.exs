@@ -628,4 +628,62 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_zone(zone)
     end
   end
+
+  describe "photographers" do
+    alias FilmFlow.Settings.Photographer
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{first_name: nil, middle_name: nil, last_name: nil}
+
+    test "list_photographers/0 returns all photographers" do
+      photographer = photographer_fixture()
+      assert Settings.list_photographers() == [photographer]
+    end
+
+    test "get_photographer!/1 returns the photographer with given id" do
+      photographer = photographer_fixture()
+      assert Settings.get_photographer!(photographer.id) == photographer
+    end
+
+    test "create_photographer/1 with valid data creates a photographer" do
+      valid_attrs = %{first_name: "some first_name", middle_name: "some middle_name", last_name: "some last_name"}
+
+      assert {:ok, %Photographer{} = photographer} = Settings.create_photographer(valid_attrs)
+      assert photographer.first_name == "some first_name"
+      assert photographer.middle_name == "some middle_name"
+      assert photographer.last_name == "some last_name"
+    end
+
+    test "create_photographer/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_photographer(@invalid_attrs)
+    end
+
+    test "update_photographer/2 with valid data updates the photographer" do
+      photographer = photographer_fixture()
+      update_attrs = %{first_name: "some updated first_name", middle_name: "some updated middle_name", last_name: "some updated last_name"}
+
+      assert {:ok, %Photographer{} = photographer} = Settings.update_photographer(photographer, update_attrs)
+      assert photographer.first_name == "some updated first_name"
+      assert photographer.middle_name == "some updated middle_name"
+      assert photographer.last_name == "some updated last_name"
+    end
+
+    test "update_photographer/2 with invalid data returns error changeset" do
+      photographer = photographer_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_photographer(photographer, @invalid_attrs)
+      assert photographer == Settings.get_photographer!(photographer.id)
+    end
+
+    test "delete_photographer/1 deletes the photographer" do
+      photographer = photographer_fixture()
+      assert {:ok, %Photographer{}} = Settings.delete_photographer(photographer)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_photographer!(photographer.id) end
+    end
+
+    test "change_photographer/1 returns a photographer changeset" do
+      photographer = photographer_fixture()
+      assert %Ecto.Changeset{} = Settings.change_photographer(photographer)
+    end
+  end
 end
