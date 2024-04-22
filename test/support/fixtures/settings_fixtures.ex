@@ -203,4 +203,22 @@ defmodule FilmFlow.SettingsFixtures do
 
     location
   end
+
+  @doc """
+  Generate a exposure_record.
+  """
+  def exposure_record_fixture(attrs \\ %{}) do
+    {:ok, exposure_record} =
+      attrs
+      |> Enum.into(%{
+        concept: "some concept",
+        date_exposed: ~U[2024-04-21 21:57:00Z],
+        date_loaded: ~U[2024-04-21 21:57:00Z],
+        project_name: "some project_name",
+        reference_id: "some reference_id"
+      })
+      |> FilmFlow.Settings.create_exposure_record()
+
+    exposure_record
+  end
 end

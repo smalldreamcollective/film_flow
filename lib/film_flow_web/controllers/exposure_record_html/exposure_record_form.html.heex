@@ -1,0 +1,13 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:reference_id]} type="text" label="Reference" />
+  <.input field={f[:project_name]} type="text" label="Project name" />
+  <.input field={f[:date_loaded]} type="datetime-local" label="Date loaded" />
+  <.input field={f[:date_exposed]} type="datetime-local" label="Date exposed" />
+  <.input field={f[:concept]} type="text" label="Concept" />
+  <:actions>
+    <.button>Save Exposure record</.button>
+  </:actions>
+</.simple_form>

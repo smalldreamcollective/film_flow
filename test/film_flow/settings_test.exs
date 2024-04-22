@@ -740,4 +740,66 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_location(location)
     end
   end
+
+  describe "exposure_records" do
+    alias FilmFlow.Settings.ExposureRecord
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{reference_id: nil, project_name: nil, date_loaded: nil, date_exposed: nil, concept: nil}
+
+    test "list_exposure_records/0 returns all exposure_records" do
+      exposure_record = exposure_record_fixture()
+      assert Settings.list_exposure_records() == [exposure_record]
+    end
+
+    test "get_exposure_record!/1 returns the exposure_record with given id" do
+      exposure_record = exposure_record_fixture()
+      assert Settings.get_exposure_record!(exposure_record.id) == exposure_record
+    end
+
+    test "create_exposure_record/1 with valid data creates a exposure_record" do
+      valid_attrs = %{reference_id: "some reference_id", project_name: "some project_name", date_loaded: ~U[2024-04-21 21:57:00Z], date_exposed: ~U[2024-04-21 21:57:00Z], concept: "some concept"}
+
+      assert {:ok, %ExposureRecord{} = exposure_record} = Settings.create_exposure_record(valid_attrs)
+      assert exposure_record.reference_id == "some reference_id"
+      assert exposure_record.project_name == "some project_name"
+      assert exposure_record.date_loaded == ~U[2024-04-21 21:57:00Z]
+      assert exposure_record.date_exposed == ~U[2024-04-21 21:57:00Z]
+      assert exposure_record.concept == "some concept"
+    end
+
+    test "create_exposure_record/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_exposure_record(@invalid_attrs)
+    end
+
+    test "update_exposure_record/2 with valid data updates the exposure_record" do
+      exposure_record = exposure_record_fixture()
+      update_attrs = %{reference_id: "some updated reference_id", project_name: "some updated project_name", date_loaded: ~U[2024-04-22 21:57:00Z], date_exposed: ~U[2024-04-22 21:57:00Z], concept: "some updated concept"}
+
+      assert {:ok, %ExposureRecord{} = exposure_record} = Settings.update_exposure_record(exposure_record, update_attrs)
+      assert exposure_record.reference_id == "some updated reference_id"
+      assert exposure_record.project_name == "some updated project_name"
+      assert exposure_record.date_loaded == ~U[2024-04-22 21:57:00Z]
+      assert exposure_record.date_exposed == ~U[2024-04-22 21:57:00Z]
+      assert exposure_record.concept == "some updated concept"
+    end
+
+    test "update_exposure_record/2 with invalid data returns error changeset" do
+      exposure_record = exposure_record_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_exposure_record(exposure_record, @invalid_attrs)
+      assert exposure_record == Settings.get_exposure_record!(exposure_record.id)
+    end
+
+    test "delete_exposure_record/1 deletes the exposure_record" do
+      exposure_record = exposure_record_fixture()
+      assert {:ok, %ExposureRecord{}} = Settings.delete_exposure_record(exposure_record)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_exposure_record!(exposure_record.id) end
+    end
+
+    test "change_exposure_record/1 returns a exposure_record changeset" do
+      exposure_record = exposure_record_fixture()
+      assert %Ecto.Changeset{} = Settings.change_exposure_record(exposure_record)
+    end
+  end
 end
