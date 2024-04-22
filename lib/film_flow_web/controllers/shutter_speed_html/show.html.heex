@@ -1,0 +1,15 @@
+<.header>
+  Shutter speed <%= @shutter_speed.id %>
+  <:subtitle>This is a shutter_speed record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/shutter_speed/#{@shutter_speed}/edit"}>
+      <.button>Edit shutter_speed</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Value"><%= @shutter_speed.value %></:item>
+</.list>
+
+<.back navigate={~p"/shutter_speed"}>Back to shutter_speed</.back>

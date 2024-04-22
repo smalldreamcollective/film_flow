@@ -1,0 +1,8 @@
+<.header>
+  Edit Shutter speed <%= @shutter_speed.id %>
+  <:subtitle>Use this form to manage shutter_speed records in your database.</:subtitle>
+</.header>
+
+<.shutter_speed_form changeset={@changeset} action={~p"/shutter_speed/#{@shutter_speed}"} />
+
+<.back navigate={~p"/shutter_speed"}>Back to shutter_speed</.back>

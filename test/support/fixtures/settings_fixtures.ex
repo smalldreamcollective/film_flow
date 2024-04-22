@@ -112,4 +112,18 @@ defmodule FilmFlow.SettingsFixtures do
 
     film
   end
+
+  @doc """
+  Generate a shutter_speed.
+  """
+  def shutter_speed_fixture(attrs \\ %{}) do
+    {:ok, shutter_speed} =
+      attrs
+      |> Enum.into(%{
+        value: "some value"
+      })
+      |> FilmFlow.Settings.create_shutter_speed()
+
+    shutter_speed
+  end
 end
