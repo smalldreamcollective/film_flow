@@ -275,4 +275,20 @@ defmodule FilmFlow.SettingsFixtures do
 
     film_back
   end
+
+  @doc """
+  Generate a light_condition.
+  """
+  def light_condition_fixture(attrs \\ %{}) do
+    {:ok, light_condition} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        name: "some name",
+        url_icon: "some url_icon"
+      })
+      |> FilmFlow.Settings.create_light_condition()
+
+    light_condition
+  end
 end
