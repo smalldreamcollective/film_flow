@@ -1,0 +1,19 @@
+<.header>
+  Holder <%= @holder.id %>
+  <:subtitle>This is a holder record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/holders/#{@holder}/edit"}>
+      <.button>Edit holder</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Model"><%= @holder.model %></:item>
+  <:item title="Description"><%= @holder.description %></:item>
+  <:item title="Years"><%= @holder.years %></:item>
+  <:item title="Url manual"><%= @holder.url_manual %></:item>
+  <:item title="Url additional info"><%= @holder.url_additional_info %></:item>
+</.list>
+
+<.back navigate={~p"/holders"}>Back to holders</.back>

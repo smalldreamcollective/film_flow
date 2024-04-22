@@ -1,0 +1,27 @@
+<.header>
+  Listing Holders
+  <:actions>
+    <.link href={~p"/holders/new"}>
+      <.button>New Holder</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="holders" rows={@holders} row_click={&JS.navigate(~p"/holders/#{&1}")}>
+  <:col :let={holder} label="Model"><%= holder.model %></:col>
+  <:col :let={holder} label="Description"><%= holder.description %></:col>
+  <:col :let={holder} label="Years"><%= holder.years %></:col>
+  <:col :let={holder} label="Url manual"><%= holder.url_manual %></:col>
+  <:col :let={holder} label="Url additional info"><%= holder.url_additional_info %></:col>
+  <:action :let={holder}>
+    <div class="sr-only">
+      <.link navigate={~p"/holders/#{holder}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/holders/#{holder}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={holder}>
+    <.link href={~p"/holders/#{holder}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
