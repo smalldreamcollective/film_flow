@@ -158,6 +158,15 @@ defmodule FilmFlowWeb.Router do
       patch "/aperture/:id", ApertureController, :update
       put "/aperture/:id", ApertureController, :update
       delete "/aperture/:id", ApertureController, :delete
+
+      get "/tripods", TripodController, :index
+      get "/tripods/:id/edit", TripodController, :edit
+      get "/tripods/new", TripodController, :new
+      get "/tripods/:id", TripodController, :show
+      post "/tripods", TripodController, :create
+      patch "/tripods/:id", TripodController, :update
+      put "/tripods/:id", TripodController, :update
+      delete "/tripods/:id", TripodController, :delete
     end
   end
 

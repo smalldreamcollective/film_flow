@@ -140,4 +140,22 @@ defmodule FilmFlow.SettingsFixtures do
 
     aperture
   end
+
+  @doc """
+  Generate a tripod.
+  """
+  def tripod_fixture(attrs \\ %{}) do
+    {:ok, tripod} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        model: "some model",
+        url_addtional_info: "some url_addtional_info",
+        url_manual: "some url_manual",
+        years: "some years"
+      })
+      |> FilmFlow.Settings.create_tripod()
+
+    tripod
+  end
 end
