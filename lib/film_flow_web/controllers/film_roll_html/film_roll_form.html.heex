@@ -1,0 +1,13 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:reference_id]} type="text" label="Reference" />
+  <.input field={f[:name]} type="text" label="Name" />
+  <.input field={f[:frames]} type="number" label="Frames" />
+  <.input field={f[:expirate_date]} type="datetime-local" label="Expirate date" />
+  <.input field={f[:description]} type="text" label="Description" />
+  <:actions>
+    <.button>Save Film roll</.button>
+  </:actions>
+</.simple_form>

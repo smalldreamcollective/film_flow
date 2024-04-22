@@ -1,0 +1,27 @@
+<.header>
+  Listing Film rolls
+  <:actions>
+    <.link href={~p"/film_rolls/new"}>
+      <.button>New Film roll</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="film_rolls" rows={@film_rolls} row_click={&JS.navigate(~p"/film_rolls/#{&1}")}>
+  <:col :let={film_roll} label="Reference"><%= film_roll.reference_id %></:col>
+  <:col :let={film_roll} label="Name"><%= film_roll.name %></:col>
+  <:col :let={film_roll} label="Frames"><%= film_roll.frames %></:col>
+  <:col :let={film_roll} label="Expirate date"><%= film_roll.expirate_date %></:col>
+  <:col :let={film_roll} label="Description"><%= film_roll.description %></:col>
+  <:action :let={film_roll}>
+    <div class="sr-only">
+      <.link navigate={~p"/film_rolls/#{film_roll}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/film_rolls/#{film_roll}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={film_roll}>
+    <.link href={~p"/film_rolls/#{film_roll}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

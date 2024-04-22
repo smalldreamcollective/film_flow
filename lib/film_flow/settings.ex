@@ -1734,4 +1734,100 @@ defmodule FilmFlow.Settings do
   def change_light_condition(%LightCondition{} = light_condition, attrs \\ %{}) do
     LightCondition.changeset(light_condition, attrs)
   end
+
+  alias FilmFlow.Settings.FilmRoll
+
+  @doc """
+  Returns the list of film_rolls.
+
+  ## Examples
+
+      iex> list_film_rolls()
+      [%FilmRoll{}, ...]
+
+  """
+  def list_film_rolls do
+    Repo.all(FilmRoll)
+  end
+
+  @doc """
+  Gets a single film_roll.
+
+  Raises `Ecto.NoResultsError` if the Film roll does not exist.
+
+  ## Examples
+
+      iex> get_film_roll!(123)
+      %FilmRoll{}
+
+      iex> get_film_roll!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_film_roll!(id), do: Repo.get!(FilmRoll, id)
+
+  @doc """
+  Creates a film_roll.
+
+  ## Examples
+
+      iex> create_film_roll(%{field: value})
+      {:ok, %FilmRoll{}}
+
+      iex> create_film_roll(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_film_roll(attrs \\ %{}) do
+    %FilmRoll{}
+    |> FilmRoll.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a film_roll.
+
+  ## Examples
+
+      iex> update_film_roll(film_roll, %{field: new_value})
+      {:ok, %FilmRoll{}}
+
+      iex> update_film_roll(film_roll, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_film_roll(%FilmRoll{} = film_roll, attrs) do
+    film_roll
+    |> FilmRoll.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a film_roll.
+
+  ## Examples
+
+      iex> delete_film_roll(film_roll)
+      {:ok, %FilmRoll{}}
+
+      iex> delete_film_roll(film_roll)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_film_roll(%FilmRoll{} = film_roll) do
+    Repo.delete(film_roll)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking film_roll changes.
+
+  ## Examples
+
+      iex> change_film_roll(film_roll)
+      %Ecto.Changeset{data: %FilmRoll{}}
+
+  """
+  def change_film_roll(%FilmRoll{} = film_roll, attrs \\ %{}) do
+    FilmRoll.changeset(film_roll, attrs)
+  end
 end
