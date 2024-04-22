@@ -1,0 +1,24 @@
+<.header>
+  Listing Format
+  <:actions>
+    <.link href={~p"/format/new"}>
+      <.button>New Format</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="format" rows={@format_collection} row_click={&JS.navigate(~p"/format/#{&1}")}>
+  <:col :let={format} label="Name"><%= format.name %></:col>
+  <:col :let={format} label="Description"><%= format.description %></:col>
+  <:action :let={format}>
+    <div class="sr-only">
+      <.link navigate={~p"/format/#{format}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/format/#{format}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={format}>
+    <.link href={~p"/format/#{format}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

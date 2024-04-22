@@ -52,4 +52,19 @@ defmodule FilmFlow.SettingsFixtures do
 
     lens
   end
+
+  @doc """
+  Generate a format.
+  """
+  def format_fixture(attrs \\ %{}) do
+    {:ok, format} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        name: "some name"
+      })
+      |> FilmFlow.Settings.create_format()
+
+    format
+  end
 end

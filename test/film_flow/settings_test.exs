@@ -178,4 +178,60 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_lens(lens)
     end
   end
+
+  describe "format" do
+    alias FilmFlow.Settings.Format
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{name: nil, description: nil}
+
+    test "list_format/0 returns all format" do
+      format = format_fixture()
+      assert Settings.list_format() == [format]
+    end
+
+    test "get_format!/1 returns the format with given id" do
+      format = format_fixture()
+      assert Settings.get_format!(format.id) == format
+    end
+
+    test "create_format/1 with valid data creates a format" do
+      valid_attrs = %{name: "some name", description: "some description"}
+
+      assert {:ok, %Format{} = format} = Settings.create_format(valid_attrs)
+      assert format.name == "some name"
+      assert format.description == "some description"
+    end
+
+    test "create_format/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_format(@invalid_attrs)
+    end
+
+    test "update_format/2 with valid data updates the format" do
+      format = format_fixture()
+      update_attrs = %{name: "some updated name", description: "some updated description"}
+
+      assert {:ok, %Format{} = format} = Settings.update_format(format, update_attrs)
+      assert format.name == "some updated name"
+      assert format.description == "some updated description"
+    end
+
+    test "update_format/2 with invalid data returns error changeset" do
+      format = format_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_format(format, @invalid_attrs)
+      assert format == Settings.get_format!(format.id)
+    end
+
+    test "delete_format/1 deletes the format" do
+      format = format_fixture()
+      assert {:ok, %Format{}} = Settings.delete_format(format)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_format!(format.id) end
+    end
+
+    test "change_format/1 returns a format changeset" do
+      format = format_fixture()
+      assert %Ecto.Changeset{} = Settings.change_format(format)
+    end
+  end
 end
