@@ -1,0 +1,8 @@
+<.header>
+  Edit Format <%= @format.id %>
+  <:subtitle>Use this form to manage format records in your database.</:subtitle>
+</.header>
+
+<.format_form changeset={@changeset} action={~p"/format/#{@format}"} />
+
+<.back navigate={~p"/format"}>Back to format</.back>

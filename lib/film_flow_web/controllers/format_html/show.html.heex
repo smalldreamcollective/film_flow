@@ -1,0 +1,16 @@
+<.header>
+  Format <%= @format.id %>
+  <:subtitle>This is a format record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/format/#{@format}/edit"}>
+      <.button>Edit format</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @format.name %></:item>
+  <:item title="Description"><%= @format.description %></:item>
+</.list>
+
+<.back navigate={~p"/format"}>Back to format</.back>
