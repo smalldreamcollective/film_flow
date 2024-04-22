@@ -1,0 +1,16 @@
+<.header>
+  Film type <%= @film_type.id %>
+  <:subtitle>This is a film_type record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/film_type/#{@film_type}/edit"}>
+      <.button>Edit film_type</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @film_type.name %></:item>
+  <:item title="Description"><%= @film_type.description %></:item>
+</.list>
+
+<.back navigate={~p"/film_type"}>Back to film_type</.back>

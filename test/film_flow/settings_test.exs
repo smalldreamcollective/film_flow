@@ -290,4 +290,60 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_iso(iso)
     end
   end
+
+  describe "film_type" do
+    alias FilmFlow.Settings.FilmType
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{name: nil, description: nil}
+
+    test "list_film_type/0 returns all film_type" do
+      film_type = film_type_fixture()
+      assert Settings.list_film_type() == [film_type]
+    end
+
+    test "get_film_type!/1 returns the film_type with given id" do
+      film_type = film_type_fixture()
+      assert Settings.get_film_type!(film_type.id) == film_type
+    end
+
+    test "create_film_type/1 with valid data creates a film_type" do
+      valid_attrs = %{name: "some name", description: "some description"}
+
+      assert {:ok, %FilmType{} = film_type} = Settings.create_film_type(valid_attrs)
+      assert film_type.name == "some name"
+      assert film_type.description == "some description"
+    end
+
+    test "create_film_type/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_film_type(@invalid_attrs)
+    end
+
+    test "update_film_type/2 with valid data updates the film_type" do
+      film_type = film_type_fixture()
+      update_attrs = %{name: "some updated name", description: "some updated description"}
+
+      assert {:ok, %FilmType{} = film_type} = Settings.update_film_type(film_type, update_attrs)
+      assert film_type.name == "some updated name"
+      assert film_type.description == "some updated description"
+    end
+
+    test "update_film_type/2 with invalid data returns error changeset" do
+      film_type = film_type_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_film_type(film_type, @invalid_attrs)
+      assert film_type == Settings.get_film_type!(film_type.id)
+    end
+
+    test "delete_film_type/1 deletes the film_type" do
+      film_type = film_type_fixture()
+      assert {:ok, %FilmType{}} = Settings.delete_film_type(film_type)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_film_type!(film_type.id) end
+    end
+
+    test "change_film_type/1 returns a film_type changeset" do
+      film_type = film_type_fixture()
+      assert %Ecto.Changeset{} = Settings.change_film_type(film_type)
+    end
+  end
 end

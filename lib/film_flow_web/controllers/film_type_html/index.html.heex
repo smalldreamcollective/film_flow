@@ -1,0 +1,24 @@
+<.header>
+  Listing Film type
+  <:actions>
+    <.link href={~p"/film_type/new"}>
+      <.button>New Film type</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="film_type" rows={@film_type_collection} row_click={&JS.navigate(~p"/film_type/#{&1}")}>
+  <:col :let={film_type} label="Name"><%= film_type.name %></:col>
+  <:col :let={film_type} label="Description"><%= film_type.description %></:col>
+  <:action :let={film_type}>
+    <div class="sr-only">
+      <.link navigate={~p"/film_type/#{film_type}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/film_type/#{film_type}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={film_type}>
+    <.link href={~p"/film_type/#{film_type}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

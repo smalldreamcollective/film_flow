@@ -122,6 +122,15 @@ defmodule FilmFlowWeb.Router do
       patch "/iso/:id", ISOController, :update
       put "/iso/:id", ISOController, :update
       delete "/iso/:id", ISOController, :delete
+
+      get "/film_type", FilmTypeController, :index
+      get "/film_type/:id/edit", FilmTypeController, :edit
+      get "/film_type/new", FilmTypeController, :new
+      get "/film_type/:id", FilmTypeController, :show
+      post "/film_type", FilmTypeController, :create
+      patch "/film_type/:id", FilmTypeController, :update
+      put "/film_type/:id", FilmTypeController, :update
+      delete "/film_type/:id", FilmTypeController, :delete
     end
   end
 
