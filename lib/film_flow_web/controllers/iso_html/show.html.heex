@@ -1,0 +1,16 @@
+<.header>
+  Iso <%= @iso.id %>
+  <:subtitle>This is a iso record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/iso/#{@iso}/edit"}>
+      <.button>Edit iso</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Value"><%= @iso.value %></:item>
+  <:item title="Description"><%= @iso.description %></:item>
+</.list>
+
+<.back navigate={~p"/iso"}>Back to iso</.back>
