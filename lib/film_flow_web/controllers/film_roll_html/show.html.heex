@@ -1,0 +1,19 @@
+<.header>
+  Film roll <%= @film_roll.id %>
+  <:subtitle>This is a film_roll record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/film_rolls/#{@film_roll}/edit"}>
+      <.button>Edit film_roll</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Reference"><%= @film_roll.reference_id %></:item>
+  <:item title="Name"><%= @film_roll.name %></:item>
+  <:item title="Frames"><%= @film_roll.frames %></:item>
+  <:item title="Expirate date"><%= @film_roll.expirate_date %></:item>
+  <:item title="Description"><%= @film_roll.description %></:item>
+</.list>
+
+<.back navigate={~p"/film_rolls"}>Back to film_rolls</.back>

@@ -1,0 +1,8 @@
+<.header>
+  Edit Film roll <%= @film_roll.id %>
+  <:subtitle>Use this form to manage film_roll records in your database.</:subtitle>
+</.header>
+
+<.film_roll_form changeset={@changeset} action={~p"/film_rolls/#{@film_roll}"} />
+
+<.back navigate={~p"/film_rolls"}>Back to film_rolls</.back>

@@ -291,4 +291,22 @@ defmodule FilmFlow.SettingsFixtures do
 
     light_condition
   end
+
+  @doc """
+  Generate a film_roll.
+  """
+  def film_roll_fixture(attrs \\ %{}) do
+    {:ok, film_roll} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        expirate_date: ~U[2024-04-21 22:45:00Z],
+        frames: 42,
+        name: "some name",
+        reference_id: "some reference_id"
+      })
+      |> FilmFlow.Settings.create_film_roll()
+
+    film_roll
+  end
 end

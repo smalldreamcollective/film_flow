@@ -1046,4 +1046,66 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_light_condition(light_condition)
     end
   end
+
+  describe "film_rolls" do
+    alias FilmFlow.Settings.FilmRoll
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{name: nil, description: nil, reference_id: nil, frames: nil, expirate_date: nil}
+
+    test "list_film_rolls/0 returns all film_rolls" do
+      film_roll = film_roll_fixture()
+      assert Settings.list_film_rolls() == [film_roll]
+    end
+
+    test "get_film_roll!/1 returns the film_roll with given id" do
+      film_roll = film_roll_fixture()
+      assert Settings.get_film_roll!(film_roll.id) == film_roll
+    end
+
+    test "create_film_roll/1 with valid data creates a film_roll" do
+      valid_attrs = %{name: "some name", description: "some description", reference_id: "some reference_id", frames: 42, expirate_date: ~U[2024-04-21 22:45:00Z]}
+
+      assert {:ok, %FilmRoll{} = film_roll} = Settings.create_film_roll(valid_attrs)
+      assert film_roll.name == "some name"
+      assert film_roll.description == "some description"
+      assert film_roll.reference_id == "some reference_id"
+      assert film_roll.frames == 42
+      assert film_roll.expirate_date == ~U[2024-04-21 22:45:00Z]
+    end
+
+    test "create_film_roll/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_film_roll(@invalid_attrs)
+    end
+
+    test "update_film_roll/2 with valid data updates the film_roll" do
+      film_roll = film_roll_fixture()
+      update_attrs = %{name: "some updated name", description: "some updated description", reference_id: "some updated reference_id", frames: 43, expirate_date: ~U[2024-04-22 22:45:00Z]}
+
+      assert {:ok, %FilmRoll{} = film_roll} = Settings.update_film_roll(film_roll, update_attrs)
+      assert film_roll.name == "some updated name"
+      assert film_roll.description == "some updated description"
+      assert film_roll.reference_id == "some updated reference_id"
+      assert film_roll.frames == 43
+      assert film_roll.expirate_date == ~U[2024-04-22 22:45:00Z]
+    end
+
+    test "update_film_roll/2 with invalid data returns error changeset" do
+      film_roll = film_roll_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_film_roll(film_roll, @invalid_attrs)
+      assert film_roll == Settings.get_film_roll!(film_roll.id)
+    end
+
+    test "delete_film_roll/1 deletes the film_roll" do
+      film_roll = film_roll_fixture()
+      assert {:ok, %FilmRoll{}} = Settings.delete_film_roll(film_roll)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_film_roll!(film_roll.id) end
+    end
+
+    test "change_film_roll/1 returns a film_roll changeset" do
+      film_roll = film_roll_fixture()
+      assert %Ecto.Changeset{} = Settings.change_film_roll(film_roll)
+    end
+  end
 end
