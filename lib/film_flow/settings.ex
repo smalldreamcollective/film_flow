@@ -1830,4 +1830,100 @@ defmodule FilmFlow.Settings do
   def change_film_roll(%FilmRoll{} = film_roll, attrs \\ %{}) do
     FilmRoll.changeset(film_roll, attrs)
   end
+
+  alias FilmFlow.Settings.Exposure
+
+  @doc """
+  Returns the list of exposures.
+
+  ## Examples
+
+      iex> list_exposures()
+      [%Exposure{}, ...]
+
+  """
+  def list_exposures do
+    Repo.all(Exposure)
+  end
+
+  @doc """
+  Gets a single exposure.
+
+  Raises `Ecto.NoResultsError` if the Exposure does not exist.
+
+  ## Examples
+
+      iex> get_exposure!(123)
+      %Exposure{}
+
+      iex> get_exposure!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_exposure!(id), do: Repo.get!(Exposure, id)
+
+  @doc """
+  Creates a exposure.
+
+  ## Examples
+
+      iex> create_exposure(%{field: value})
+      {:ok, %Exposure{}}
+
+      iex> create_exposure(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_exposure(attrs \\ %{}) do
+    %Exposure{}
+    |> Exposure.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a exposure.
+
+  ## Examples
+
+      iex> update_exposure(exposure, %{field: new_value})
+      {:ok, %Exposure{}}
+
+      iex> update_exposure(exposure, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_exposure(%Exposure{} = exposure, attrs) do
+    exposure
+    |> Exposure.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a exposure.
+
+  ## Examples
+
+      iex> delete_exposure(exposure)
+      {:ok, %Exposure{}}
+
+      iex> delete_exposure(exposure)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_exposure(%Exposure{} = exposure) do
+    Repo.delete(exposure)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking exposure changes.
+
+  ## Examples
+
+      iex> change_exposure(exposure)
+      %Ecto.Changeset{data: %Exposure{}}
+
+  """
+  def change_exposure(%Exposure{} = exposure, attrs \\ %{}) do
+    Exposure.changeset(exposure, attrs)
+  end
 end

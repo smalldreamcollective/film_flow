@@ -1,0 +1,19 @@
+<.header>
+  Exposure <%= @exposure.id %>
+  <:subtitle>This is a exposure record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/exposures/#{@exposure}/edit"}>
+      <.button>Edit exposure</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Frame"><%= @exposure.frame %></:item>
+  <:item title="Subject"><%= @exposure.subject %></:item>
+  <:item title="Date exposed"><%= @exposure.date_exposed %></:item>
+  <:item title="Lighting condition"><%= @exposure.lighting_condition %></:item>
+  <:item title="Notes"><%= @exposure.notes %></:item>
+</.list>
+
+<.back navigate={~p"/exposures"}>Back to exposures</.back>
