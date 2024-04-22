@@ -221,4 +221,22 @@ defmodule FilmFlow.SettingsFixtures do
 
     exposure_record
   end
+
+  @doc """
+  Generate a filter.
+  """
+  def filter_fixture(attrs \\ %{}) do
+    {:ok, filter} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        model: "some model",
+        url_additional_info: "some url_additional_info",
+        url_manual: "some url_manual",
+        years: "some years"
+      })
+      |> FilmFlow.Settings.create_filter()
+
+    filter
+  end
 end

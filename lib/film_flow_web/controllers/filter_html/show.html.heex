@@ -1,0 +1,19 @@
+<.header>
+  Filter <%= @filter.id %>
+  <:subtitle>This is a filter record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/filters/#{@filter}/edit"}>
+      <.button>Edit filter</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Model"><%= @filter.model %></:item>
+  <:item title="Description"><%= @filter.description %></:item>
+  <:item title="Years"><%= @filter.years %></:item>
+  <:item title="Url manual"><%= @filter.url_manual %></:item>
+  <:item title="Url additional info"><%= @filter.url_additional_info %></:item>
+</.list>
+
+<.back navigate={~p"/filters"}>Back to filters</.back>
