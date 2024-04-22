@@ -1,0 +1,28 @@
+<.header>
+  Listing Lenses
+  <:actions>
+    <.link href={~p"/lenses/new"}>
+      <.button>New Lens</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="lenses" rows={@lenses} row_click={&JS.navigate(~p"/lenses/#{&1}")} >
+  <:col :let={lens} label="Make"><%= Tuple.to_list(List.keyfind(@manufacturers, lens.manufacturer, 1))  %></:col>
+  <:col :let={lens} label="Model"><%= lens.model %></:col>
+  <:col :let={lens} label="Description"><%= lens.description %></:col>
+  <:col :let={lens} label="Years"><%= lens.years %></:col>
+  <:col :let={lens} label="Url manual"><%= lens.url_manual %></:col>
+  <:col :let={lens} label="Url additional info"><%= lens.url_additional_info %></:col>
+  <:action :let={lens}>
+    <div class="sr-only">
+      <.link navigate={~p"/lenses/#{lens}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/lenses/#{lens}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={lens}>
+    <.link href={~p"/lenses/#{lens}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
