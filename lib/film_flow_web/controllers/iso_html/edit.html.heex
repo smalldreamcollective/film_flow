@@ -1,0 +1,8 @@
+<.header>
+  Edit Iso <%= @iso.id %>
+  <:subtitle>Use this form to manage iso records in your database.</:subtitle>
+</.header>
+
+<.iso_form changeset={@changeset} action={~p"/iso/#{@iso}"} />
+
+<.back navigate={~p"/iso"}>Back to iso</.back>

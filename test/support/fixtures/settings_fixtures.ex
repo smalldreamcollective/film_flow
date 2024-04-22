@@ -67,4 +67,19 @@ defmodule FilmFlow.SettingsFixtures do
 
     format
   end
+
+  @doc """
+  Generate a iso.
+  """
+  def iso_fixture(attrs \\ %{}) do
+    {:ok, iso} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        value: "some value"
+      })
+      |> FilmFlow.Settings.create_iso()
+
+    iso
+  end
 end

@@ -390,4 +390,100 @@ defmodule FilmFlow.Settings do
   def change_format(%Format{} = format, attrs \\ %{}) do
     Format.changeset(format, attrs)
   end
+
+  alias FilmFlow.Settings.ISO
+
+  @doc """
+  Returns the list of iso.
+
+  ## Examples
+
+      iex> list_iso()
+      [%ISO{}, ...]
+
+  """
+  def list_iso do
+    Repo.all(ISO)
+  end
+
+  @doc """
+  Gets a single iso.
+
+  Raises `Ecto.NoResultsError` if the Iso does not exist.
+
+  ## Examples
+
+      iex> get_iso!(123)
+      %ISO{}
+
+      iex> get_iso!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_iso!(id), do: Repo.get!(ISO, id)
+
+  @doc """
+  Creates a iso.
+
+  ## Examples
+
+      iex> create_iso(%{field: value})
+      {:ok, %ISO{}}
+
+      iex> create_iso(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_iso(attrs \\ %{}) do
+    %ISO{}
+    |> ISO.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a iso.
+
+  ## Examples
+
+      iex> update_iso(iso, %{field: new_value})
+      {:ok, %ISO{}}
+
+      iex> update_iso(iso, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_iso(%ISO{} = iso, attrs) do
+    iso
+    |> ISO.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a iso.
+
+  ## Examples
+
+      iex> delete_iso(iso)
+      {:ok, %ISO{}}
+
+      iex> delete_iso(iso)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_iso(%ISO{} = iso) do
+    Repo.delete(iso)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking iso changes.
+
+  ## Examples
+
+      iex> change_iso(iso)
+      %Ecto.Changeset{data: %ISO{}}
+
+  """
+  def change_iso(%ISO{} = iso, attrs \\ %{}) do
+    ISO.changeset(iso, attrs)
+  end
 end

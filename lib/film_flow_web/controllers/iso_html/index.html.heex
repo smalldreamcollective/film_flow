@@ -1,0 +1,24 @@
+<.header>
+  Listing Iso
+  <:actions>
+    <.link href={~p"/iso/new"}>
+      <.button>New Iso</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="iso" rows={@iso_collection} row_click={&JS.navigate(~p"/iso/#{&1}")}>
+  <:col :let={iso} label="Value"><%= iso.value %></:col>
+  <:col :let={iso} label="Description"><%= iso.description %></:col>
+  <:action :let={iso}>
+    <div class="sr-only">
+      <.link navigate={~p"/iso/#{iso}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/iso/#{iso}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={iso}>
+    <.link href={~p"/iso/#{iso}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

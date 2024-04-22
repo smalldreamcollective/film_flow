@@ -234,4 +234,60 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_format(format)
     end
   end
+
+  describe "iso" do
+    alias FilmFlow.Settings.ISO
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{value: nil, description: nil}
+
+    test "list_iso/0 returns all iso" do
+      iso = iso_fixture()
+      assert Settings.list_iso() == [iso]
+    end
+
+    test "get_iso!/1 returns the iso with given id" do
+      iso = iso_fixture()
+      assert Settings.get_iso!(iso.id) == iso
+    end
+
+    test "create_iso/1 with valid data creates a iso" do
+      valid_attrs = %{value: "some value", description: "some description"}
+
+      assert {:ok, %ISO{} = iso} = Settings.create_iso(valid_attrs)
+      assert iso.value == "some value"
+      assert iso.description == "some description"
+    end
+
+    test "create_iso/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_iso(@invalid_attrs)
+    end
+
+    test "update_iso/2 with valid data updates the iso" do
+      iso = iso_fixture()
+      update_attrs = %{value: "some updated value", description: "some updated description"}
+
+      assert {:ok, %ISO{} = iso} = Settings.update_iso(iso, update_attrs)
+      assert iso.value == "some updated value"
+      assert iso.description == "some updated description"
+    end
+
+    test "update_iso/2 with invalid data returns error changeset" do
+      iso = iso_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_iso(iso, @invalid_attrs)
+      assert iso == Settings.get_iso!(iso.id)
+    end
+
+    test "delete_iso/1 deletes the iso" do
+      iso = iso_fixture()
+      assert {:ok, %ISO{}} = Settings.delete_iso(iso)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_iso!(iso.id) end
+    end
+
+    test "change_iso/1 returns a iso changeset" do
+      iso = iso_fixture()
+      assert %Ecto.Changeset{} = Settings.change_iso(iso)
+    end
+  end
 end
