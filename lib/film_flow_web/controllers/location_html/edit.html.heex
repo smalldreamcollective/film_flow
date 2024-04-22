@@ -1,0 +1,8 @@
+<.header>
+  Edit Location <%= @location.id %>
+  <:subtitle>Use this form to manage location records in your database.</:subtitle>
+</.header>
+
+<.location_form changeset={@changeset} action={~p"/locations/#{@location}"} />
+
+<.back navigate={~p"/locations"}>Back to locations</.back>
