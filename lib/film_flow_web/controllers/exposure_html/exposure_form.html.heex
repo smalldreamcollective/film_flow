@@ -1,0 +1,13 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:frame]} type="number" label="Frame" />
+  <.input field={f[:subject]} type="text" label="Subject" />
+  <.input field={f[:date_exposed]} type="datetime-local" label="Date exposed" />
+  <.input field={f[:lighting_condition]} type="text" label="Lighting condition" />
+  <.input field={f[:notes]} type="text" label="Notes" />
+  <:actions>
+    <.button>Save Exposure</.button>
+  </:actions>
+</.simple_form>

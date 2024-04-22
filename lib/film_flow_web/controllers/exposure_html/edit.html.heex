@@ -1,0 +1,8 @@
+<.header>
+  Edit Exposure <%= @exposure.id %>
+  <:subtitle>Use this form to manage exposure records in your database.</:subtitle>
+</.header>
+
+<.exposure_form changeset={@changeset} action={~p"/exposures/#{@exposure}"} />
+
+<.back navigate={~p"/exposures"}>Back to exposures</.back>
