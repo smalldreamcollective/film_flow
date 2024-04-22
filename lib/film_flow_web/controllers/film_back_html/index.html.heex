@@ -1,0 +1,27 @@
+<.header>
+  Listing Film backs
+  <:actions>
+    <.link href={~p"/film_backs/new"}>
+      <.button>New Film back</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="film_backs" rows={@film_backs} row_click={&JS.navigate(~p"/film_backs/#{&1}")}>
+  <:col :let={film_back} label="Model"><%= film_back.model %></:col>
+  <:col :let={film_back} label="Description"><%= film_back.description %></:col>
+  <:col :let={film_back} label="Years"><%= film_back.years %></:col>
+  <:col :let={film_back} label="Url manual"><%= film_back.url_manual %></:col>
+  <:col :let={film_back} label="Url additional info"><%= film_back.url_additional_info %></:col>
+  <:action :let={film_back}>
+    <div class="sr-only">
+      <.link navigate={~p"/film_backs/#{film_back}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/film_backs/#{film_back}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={film_back}>
+    <.link href={~p"/film_backs/#{film_back}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

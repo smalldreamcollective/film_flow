@@ -221,6 +221,15 @@ defmodule FilmFlowWeb.Router do
       patch "/holders/:id", HolderController, :update
       put "/holders/:id", HolderController, :update
       delete "/holders/:id", HolderController, :delete
+
+      get "/film_backs", FilmBackController, :index
+      get "/film_backs/:id/edit", FilmBackController, :edit
+      get "/film_backs/new", FilmBackController, :new
+      get "/film_backs/:id", FilmBackController, :show
+      post "/film_backs", FilmBackController, :create
+      patch "/film_backs/:id", FilmBackController, :update
+      put "/film_backs/:id", FilmBackController, :update
+      delete "/film_backs/:id", FilmBackController, :delete
     end
   end
 

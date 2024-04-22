@@ -926,4 +926,66 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_holder(holder)
     end
   end
+
+  describe "film_backs" do
+    alias FilmFlow.Settings.FilmBack
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{description: nil, model: nil, years: nil, url_manual: nil, url_additional_info: nil}
+
+    test "list_film_backs/0 returns all film_backs" do
+      film_back = film_back_fixture()
+      assert Settings.list_film_backs() == [film_back]
+    end
+
+    test "get_film_back!/1 returns the film_back with given id" do
+      film_back = film_back_fixture()
+      assert Settings.get_film_back!(film_back.id) == film_back
+    end
+
+    test "create_film_back/1 with valid data creates a film_back" do
+      valid_attrs = %{description: "some description", model: "some model", years: "some years", url_manual: "some url_manual", url_additional_info: "some url_additional_info"}
+
+      assert {:ok, %FilmBack{} = film_back} = Settings.create_film_back(valid_attrs)
+      assert film_back.description == "some description"
+      assert film_back.model == "some model"
+      assert film_back.years == "some years"
+      assert film_back.url_manual == "some url_manual"
+      assert film_back.url_additional_info == "some url_additional_info"
+    end
+
+    test "create_film_back/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_film_back(@invalid_attrs)
+    end
+
+    test "update_film_back/2 with valid data updates the film_back" do
+      film_back = film_back_fixture()
+      update_attrs = %{description: "some updated description", model: "some updated model", years: "some updated years", url_manual: "some updated url_manual", url_additional_info: "some updated url_additional_info"}
+
+      assert {:ok, %FilmBack{} = film_back} = Settings.update_film_back(film_back, update_attrs)
+      assert film_back.description == "some updated description"
+      assert film_back.model == "some updated model"
+      assert film_back.years == "some updated years"
+      assert film_back.url_manual == "some updated url_manual"
+      assert film_back.url_additional_info == "some updated url_additional_info"
+    end
+
+    test "update_film_back/2 with invalid data returns error changeset" do
+      film_back = film_back_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_film_back(film_back, @invalid_attrs)
+      assert film_back == Settings.get_film_back!(film_back.id)
+    end
+
+    test "delete_film_back/1 deletes the film_back" do
+      film_back = film_back_fixture()
+      assert {:ok, %FilmBack{}} = Settings.delete_film_back(film_back)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_film_back!(film_back.id) end
+    end
+
+    test "change_film_back/1 returns a film_back changeset" do
+      film_back = film_back_fixture()
+      assert %Ecto.Changeset{} = Settings.change_film_back(film_back)
+    end
+  end
 end
