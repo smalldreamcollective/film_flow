@@ -456,4 +456,58 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_shutter_speed(shutter_speed)
     end
   end
+
+  describe "aperture" do
+    alias FilmFlow.Settings.Aperture
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{value: nil}
+
+    test "list_aperture/0 returns all aperture" do
+      aperture = aperture_fixture()
+      assert Settings.list_aperture() == [aperture]
+    end
+
+    test "get_aperture!/1 returns the aperture with given id" do
+      aperture = aperture_fixture()
+      assert Settings.get_aperture!(aperture.id) == aperture
+    end
+
+    test "create_aperture/1 with valid data creates a aperture" do
+      valid_attrs = %{value: "some value"}
+
+      assert {:ok, %Aperture{} = aperture} = Settings.create_aperture(valid_attrs)
+      assert aperture.value == "some value"
+    end
+
+    test "create_aperture/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_aperture(@invalid_attrs)
+    end
+
+    test "update_aperture/2 with valid data updates the aperture" do
+      aperture = aperture_fixture()
+      update_attrs = %{value: "some updated value"}
+
+      assert {:ok, %Aperture{} = aperture} = Settings.update_aperture(aperture, update_attrs)
+      assert aperture.value == "some updated value"
+    end
+
+    test "update_aperture/2 with invalid data returns error changeset" do
+      aperture = aperture_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_aperture(aperture, @invalid_attrs)
+      assert aperture == Settings.get_aperture!(aperture.id)
+    end
+
+    test "delete_aperture/1 deletes the aperture" do
+      aperture = aperture_fixture()
+      assert {:ok, %Aperture{}} = Settings.delete_aperture(aperture)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_aperture!(aperture.id) end
+    end
+
+    test "change_aperture/1 returns a aperture changeset" do
+      aperture = aperture_fixture()
+      assert %Ecto.Changeset{} = Settings.change_aperture(aperture)
+    end
+  end
 end

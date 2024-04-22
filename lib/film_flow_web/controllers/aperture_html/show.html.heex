@@ -1,0 +1,15 @@
+<.header>
+  Aperture <%= @aperture.id %>
+  <:subtitle>This is a aperture record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/aperture/#{@aperture}/edit"}>
+      <.button>Edit aperture</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Value"><%= @aperture.value %></:item>
+</.list>
+
+<.back navigate={~p"/aperture"}>Back to aperture</.back>

@@ -149,6 +149,15 @@ defmodule FilmFlowWeb.Router do
       patch "/shutter_speed/:id", ShutterSpeedController, :update
       put "/shutter_speed/:id", ShutterSpeedController, :update
       delete "/shutter_speed/:id", ShutterSpeedController, :delete
+
+      get "/aperture", ApertureController, :index
+      get "/aperture/:id/edit", ApertureController, :edit
+      get "/aperture/new", ApertureController, :new
+      get "/aperture/:id", ApertureController, :show
+      post "/aperture", ApertureController, :create
+      patch "/aperture/:id", ApertureController, :update
+      put "/aperture/:id", ApertureController, :update
+      delete "/aperture/:id", ApertureController, :delete
     end
   end
 

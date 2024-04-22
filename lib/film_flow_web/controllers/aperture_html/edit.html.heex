@@ -1,0 +1,8 @@
+<.header>
+  Edit Aperture <%= @aperture.id %>
+  <:subtitle>Use this form to manage aperture records in your database.</:subtitle>
+</.header>
+
+<.aperture_form changeset={@changeset} action={~p"/aperture/#{@aperture}"} />
+
+<.back navigate={~p"/aperture"}>Back to aperture</.back>
