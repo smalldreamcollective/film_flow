@@ -34,4 +34,22 @@ defmodule FilmFlow.SettingsFixtures do
 
     manufacturer
   end
+
+  @doc """
+  Generate a lens.
+  """
+  def lens_fixture(attrs \\ %{}) do
+    {:ok, lens} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        model: "some model",
+        url_additional_info: "some url_additional_info",
+        url_manual: "some url_manual",
+        years: "some years"
+      })
+      |> FilmFlow.Settings.create_lens()
+
+    lens
+  end
 end

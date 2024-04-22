@@ -2,27 +2,47 @@ defmodule FilmFlowWeb.CameraControllerTest do
   use FilmFlowWeb.ConnCase
 
   import FilmFlow.SettingsFixtures
+  import FilmFlow.AccountsFixtures
+
+  setup do
+    %{user: user_fixture()}
+  end
 
   @create_attrs %{name: "some name", brand: "some brand", model: "some model"}
   @update_attrs %{name: "some updated name", brand: "some updated brand", model: "some updated model"}
   @invalid_attrs %{name: nil, brand: nil, model: nil}
 
   describe "index" do
-    test "lists all cameras", %{conn: conn} do
+    test "lists all cameras", %{conn: conn, user: user} do
+      conn =
+        post(conn, ~p"/users/log_in", %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
       conn = get(conn, ~p"/cameras")
       assert html_response(conn, 200) =~ "Listing Cameras"
     end
   end
 
   describe "new camera" do
-    test "renders form", %{conn: conn} do
+    test "renders form", %{conn: conn, user: user} do
+      conn =
+        post(conn, ~p"/users/log_in", %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
       conn = get(conn, ~p"/cameras/new")
       assert html_response(conn, 200) =~ "New Camera"
     end
   end
 
   describe "create camera" do
-    test "redirects to show when data is valid", %{conn: conn} do
+    test "redirects to show when data is valid", %{conn: conn, user: user} do
+      conn =
+        post(conn, ~p"/users/log_in", %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
       conn = post(conn, ~p"/cameras", camera: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
@@ -32,7 +52,12 @@ defmodule FilmFlowWeb.CameraControllerTest do
       assert html_response(conn, 200) =~ "Camera #{id}"
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
+    test "renders errors when data is invalid", %{conn: conn, user: user} do
+      conn =
+        post(conn, ~p"/users/log_in", %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
       conn = post(conn, ~p"/cameras", camera: @invalid_attrs)
       assert html_response(conn, 200) =~ "New Camera"
     end
@@ -41,7 +66,12 @@ defmodule FilmFlowWeb.CameraControllerTest do
   describe "edit camera" do
     setup [:create_camera]
 
-    test "renders form for editing chosen camera", %{conn: conn, camera: camera} do
+    test "renders form for editing chosen camera", %{conn: conn, camera: camera, user: user} do
+      conn =
+        post(conn, ~p"/users/log_in", %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
       conn = get(conn, ~p"/cameras/#{camera}/edit")
       assert html_response(conn, 200) =~ "Edit Camera"
     end
@@ -50,7 +80,12 @@ defmodule FilmFlowWeb.CameraControllerTest do
   describe "update camera" do
     setup [:create_camera]
 
-    test "redirects when data is valid", %{conn: conn, camera: camera} do
+    test "redirects when data is valid", %{conn: conn, camera: camera, user: user} do
+      conn =
+        post(conn, ~p"/users/log_in", %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
       conn = put(conn, ~p"/cameras/#{camera}", camera: @update_attrs)
       assert redirected_to(conn) == ~p"/cameras/#{camera}"
 
@@ -58,7 +93,12 @@ defmodule FilmFlowWeb.CameraControllerTest do
       assert html_response(conn, 200) =~ "some updated name"
     end
 
-    test "renders errors when data is invalid", %{conn: conn, camera: camera} do
+    test "renders errors when data is invalid", %{conn: conn, camera: camera, user: user} do
+      conn =
+        post(conn, ~p"/users/log_in", %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
       conn = put(conn, ~p"/cameras/#{camera}", camera: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit Camera"
     end
@@ -67,7 +107,12 @@ defmodule FilmFlowWeb.CameraControllerTest do
   describe "delete camera" do
     setup [:create_camera]
 
-    test "deletes chosen camera", %{conn: conn, camera: camera} do
+    test "deletes chosen camera", %{conn: conn, camera: camera, user: user} do
+      conn =
+        post(conn, ~p"/users/log_in", %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
       conn = delete(conn, ~p"/cameras/#{camera}")
       assert redirected_to(conn) == ~p"/cameras"
 
