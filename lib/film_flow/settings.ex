@@ -1638,4 +1638,100 @@ defmodule FilmFlow.Settings do
   def change_film_back(%FilmBack{} = film_back, attrs \\ %{}) do
     FilmBack.changeset(film_back, attrs)
   end
+
+  alias FilmFlow.Settings.LightCondition
+
+  @doc """
+  Returns the list of light_conditions.
+
+  ## Examples
+
+      iex> list_light_conditions()
+      [%LightCondition{}, ...]
+
+  """
+  def list_light_conditions do
+    Repo.all(LightCondition)
+  end
+
+  @doc """
+  Gets a single light_condition.
+
+  Raises `Ecto.NoResultsError` if the Light condition does not exist.
+
+  ## Examples
+
+      iex> get_light_condition!(123)
+      %LightCondition{}
+
+      iex> get_light_condition!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_light_condition!(id), do: Repo.get!(LightCondition, id)
+
+  @doc """
+  Creates a light_condition.
+
+  ## Examples
+
+      iex> create_light_condition(%{field: value})
+      {:ok, %LightCondition{}}
+
+      iex> create_light_condition(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_light_condition(attrs \\ %{}) do
+    %LightCondition{}
+    |> LightCondition.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a light_condition.
+
+  ## Examples
+
+      iex> update_light_condition(light_condition, %{field: new_value})
+      {:ok, %LightCondition{}}
+
+      iex> update_light_condition(light_condition, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_light_condition(%LightCondition{} = light_condition, attrs) do
+    light_condition
+    |> LightCondition.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a light_condition.
+
+  ## Examples
+
+      iex> delete_light_condition(light_condition)
+      {:ok, %LightCondition{}}
+
+      iex> delete_light_condition(light_condition)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_light_condition(%LightCondition{} = light_condition) do
+    Repo.delete(light_condition)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking light_condition changes.
+
+  ## Examples
+
+      iex> change_light_condition(light_condition)
+      %Ecto.Changeset{data: %LightCondition{}}
+
+  """
+  def change_light_condition(%LightCondition{} = light_condition, attrs \\ %{}) do
+    LightCondition.changeset(light_condition, attrs)
+  end
 end

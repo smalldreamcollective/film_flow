@@ -230,6 +230,15 @@ defmodule FilmFlowWeb.Router do
       patch "/film_backs/:id", FilmBackController, :update
       put "/film_backs/:id", FilmBackController, :update
       delete "/film_backs/:id", FilmBackController, :delete
+
+      get "/light_conditions", LightConditionController, :index
+      get "/light_conditions/:id/edit", LightConditionController, :edit
+      get "/light_conditions/new", LightConditionController, :new
+      get "/light_conditions/:id", LightConditionController, :show
+      post "/light_conditions", LightConditionController, :create
+      patch "/light_conditions/:id", LightConditionController, :update
+      put "/light_conditions/:id", LightConditionController, :update
+      delete "/light_conditions/:id", LightConditionController, :delete
     end
   end
 

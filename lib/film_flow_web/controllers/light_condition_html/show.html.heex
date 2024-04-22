@@ -1,0 +1,17 @@
+<.header>
+  Light condition <%= @light_condition.id %>
+  <:subtitle>This is a light_condition record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/light_conditions/#{@light_condition}/edit"}>
+      <.button>Edit light_condition</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @light_condition.name %></:item>
+  <:item title="Description"><%= @light_condition.description %></:item>
+  <:item title="Url icon"><%= @light_condition.url_icon %></:item>
+</.list>
+
+<.back navigate={~p"/light_conditions"}>Back to light_conditions</.back>

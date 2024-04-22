@@ -988,4 +988,62 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_film_back(film_back)
     end
   end
+
+  describe "light_conditions" do
+    alias FilmFlow.Settings.LightCondition
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{name: nil, description: nil, url_icon: nil}
+
+    test "list_light_conditions/0 returns all light_conditions" do
+      light_condition = light_condition_fixture()
+      assert Settings.list_light_conditions() == [light_condition]
+    end
+
+    test "get_light_condition!/1 returns the light_condition with given id" do
+      light_condition = light_condition_fixture()
+      assert Settings.get_light_condition!(light_condition.id) == light_condition
+    end
+
+    test "create_light_condition/1 with valid data creates a light_condition" do
+      valid_attrs = %{name: "some name", description: "some description", url_icon: "some url_icon"}
+
+      assert {:ok, %LightCondition{} = light_condition} = Settings.create_light_condition(valid_attrs)
+      assert light_condition.name == "some name"
+      assert light_condition.description == "some description"
+      assert light_condition.url_icon == "some url_icon"
+    end
+
+    test "create_light_condition/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_light_condition(@invalid_attrs)
+    end
+
+    test "update_light_condition/2 with valid data updates the light_condition" do
+      light_condition = light_condition_fixture()
+      update_attrs = %{name: "some updated name", description: "some updated description", url_icon: "some updated url_icon"}
+
+      assert {:ok, %LightCondition{} = light_condition} = Settings.update_light_condition(light_condition, update_attrs)
+      assert light_condition.name == "some updated name"
+      assert light_condition.description == "some updated description"
+      assert light_condition.url_icon == "some updated url_icon"
+    end
+
+    test "update_light_condition/2 with invalid data returns error changeset" do
+      light_condition = light_condition_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_light_condition(light_condition, @invalid_attrs)
+      assert light_condition == Settings.get_light_condition!(light_condition.id)
+    end
+
+    test "delete_light_condition/1 deletes the light_condition" do
+      light_condition = light_condition_fixture()
+      assert {:ok, %LightCondition{}} = Settings.delete_light_condition(light_condition)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_light_condition!(light_condition.id) end
+    end
+
+    test "change_light_condition/1 returns a light_condition changeset" do
+      light_condition = light_condition_fixture()
+      assert %Ecto.Changeset{} = Settings.change_light_condition(light_condition)
+    end
+  end
 end
