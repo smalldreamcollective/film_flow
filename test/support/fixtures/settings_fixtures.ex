@@ -173,4 +173,20 @@ defmodule FilmFlow.SettingsFixtures do
 
     zone
   end
+
+  @doc """
+  Generate a photographer.
+  """
+  def photographer_fixture(attrs \\ %{}) do
+    {:ok, photographer} =
+      attrs
+      |> Enum.into(%{
+        first_name: "some first_name",
+        last_name: "some last_name",
+        middle_name: "some middle_name"
+      })
+      |> FilmFlow.Settings.create_photographer()
+
+    photographer
+  end
 end

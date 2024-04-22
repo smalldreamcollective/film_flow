@@ -1062,4 +1062,100 @@ defmodule FilmFlow.Settings do
   def change_zone(%Zone{} = zone, attrs \\ %{}) do
     Zone.changeset(zone, attrs)
   end
+
+  alias FilmFlow.Settings.Photographer
+
+  @doc """
+  Returns the list of photographers.
+
+  ## Examples
+
+      iex> list_photographers()
+      [%Photographer{}, ...]
+
+  """
+  def list_photographers do
+    Repo.all(Photographer)
+  end
+
+  @doc """
+  Gets a single photographer.
+
+  Raises `Ecto.NoResultsError` if the Photographer does not exist.
+
+  ## Examples
+
+      iex> get_photographer!(123)
+      %Photographer{}
+
+      iex> get_photographer!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_photographer!(id), do: Repo.get!(Photographer, id)
+
+  @doc """
+  Creates a photographer.
+
+  ## Examples
+
+      iex> create_photographer(%{field: value})
+      {:ok, %Photographer{}}
+
+      iex> create_photographer(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_photographer(attrs \\ %{}) do
+    %Photographer{}
+    |> Photographer.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a photographer.
+
+  ## Examples
+
+      iex> update_photographer(photographer, %{field: new_value})
+      {:ok, %Photographer{}}
+
+      iex> update_photographer(photographer, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_photographer(%Photographer{} = photographer, attrs) do
+    photographer
+    |> Photographer.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a photographer.
+
+  ## Examples
+
+      iex> delete_photographer(photographer)
+      {:ok, %Photographer{}}
+
+      iex> delete_photographer(photographer)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_photographer(%Photographer{} = photographer) do
+    Repo.delete(photographer)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking photographer changes.
+
+  ## Examples
+
+      iex> change_photographer(photographer)
+      %Ecto.Changeset{data: %Photographer{}}
+
+  """
+  def change_photographer(%Photographer{} = photographer, attrs \\ %{}) do
+    Photographer.changeset(photographer, attrs)
+  end
 end
