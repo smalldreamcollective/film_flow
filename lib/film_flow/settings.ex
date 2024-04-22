@@ -1542,4 +1542,100 @@ defmodule FilmFlow.Settings do
   def change_holder(%Holder{} = holder, attrs \\ %{}) do
     Holder.changeset(holder, attrs)
   end
+
+  alias FilmFlow.Settings.FilmBack
+
+  @doc """
+  Returns the list of film_backs.
+
+  ## Examples
+
+      iex> list_film_backs()
+      [%FilmBack{}, ...]
+
+  """
+  def list_film_backs do
+    Repo.all(FilmBack)
+  end
+
+  @doc """
+  Gets a single film_back.
+
+  Raises `Ecto.NoResultsError` if the Film back does not exist.
+
+  ## Examples
+
+      iex> get_film_back!(123)
+      %FilmBack{}
+
+      iex> get_film_back!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_film_back!(id), do: Repo.get!(FilmBack, id)
+
+  @doc """
+  Creates a film_back.
+
+  ## Examples
+
+      iex> create_film_back(%{field: value})
+      {:ok, %FilmBack{}}
+
+      iex> create_film_back(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_film_back(attrs \\ %{}) do
+    %FilmBack{}
+    |> FilmBack.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a film_back.
+
+  ## Examples
+
+      iex> update_film_back(film_back, %{field: new_value})
+      {:ok, %FilmBack{}}
+
+      iex> update_film_back(film_back, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_film_back(%FilmBack{} = film_back, attrs) do
+    film_back
+    |> FilmBack.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a film_back.
+
+  ## Examples
+
+      iex> delete_film_back(film_back)
+      {:ok, %FilmBack{}}
+
+      iex> delete_film_back(film_back)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_film_back(%FilmBack{} = film_back) do
+    Repo.delete(film_back)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking film_back changes.
+
+  ## Examples
+
+      iex> change_film_back(film_back)
+      %Ecto.Changeset{data: %FilmBack{}}
+
+  """
+  def change_film_back(%FilmBack{} = film_back, attrs \\ %{}) do
+    FilmBack.changeset(film_back, attrs)
+  end
 end

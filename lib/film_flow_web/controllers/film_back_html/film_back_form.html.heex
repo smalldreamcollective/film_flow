@@ -1,0 +1,13 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:model]} type="text" label="Model" />
+  <.input field={f[:description]} type="text" label="Description" />
+  <.input field={f[:years]} type="text" label="Years" />
+  <.input field={f[:url_manual]} type="text" label="Url manual" />
+  <.input field={f[:url_additional_info]} type="text" label="Url additional info" />
+  <:actions>
+    <.button>Save Film back</.button>
+  </:actions>
+</.simple_form>

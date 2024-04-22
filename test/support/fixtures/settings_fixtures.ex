@@ -257,4 +257,22 @@ defmodule FilmFlow.SettingsFixtures do
 
     holder
   end
+
+  @doc """
+  Generate a film_back.
+  """
+  def film_back_fixture(attrs \\ %{}) do
+    {:ok, film_back} =
+      attrs
+      |> Enum.into(%{
+        description: "some description",
+        model: "some model",
+        url_additional_info: "some url_additional_info",
+        url_manual: "some url_manual",
+        years: "some years"
+      })
+      |> FilmFlow.Settings.create_film_back()
+
+    film_back
+  end
 end

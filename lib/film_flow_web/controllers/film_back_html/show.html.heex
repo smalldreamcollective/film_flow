@@ -1,0 +1,19 @@
+<.header>
+  Film back <%= @film_back.id %>
+  <:subtitle>This is a film_back record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/film_backs/#{@film_back}/edit"}>
+      <.button>Edit film_back</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Model"><%= @film_back.model %></:item>
+  <:item title="Description"><%= @film_back.description %></:item>
+  <:item title="Years"><%= @film_back.years %></:item>
+  <:item title="Url manual"><%= @film_back.url_manual %></:item>
+  <:item title="Url additional info"><%= @film_back.url_additional_info %></:item>
+</.list>
+
+<.back navigate={~p"/film_backs"}>Back to film_backs</.back>
