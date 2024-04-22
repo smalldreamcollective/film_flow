@@ -194,6 +194,15 @@ defmodule FilmFlowWeb.Router do
       patch "/locations/:id", LocationController, :update
       put "/locations/:id", LocationController, :update
       delete "/locations/:id", LocationController, :delete
+
+      get "/exposure_records", ExposureRecordController, :index
+      get "/exposure_records/:id/edit", ExposureRecordController, :edit
+      get "/exposure_records/new", ExposureRecordController, :new
+      get "/exposure_records/:id", ExposureRecordController, :show
+      post "/exposure_records", ExposureRecordController, :create
+      patch "/exposure_records/:id", ExposureRecordController, :update
+      put "/exposure_records/:id", ExposureRecordController, :update
+      delete "/exposure_records/:id", ExposureRecordController, :delete
     end
   end
 

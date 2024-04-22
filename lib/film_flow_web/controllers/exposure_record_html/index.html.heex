@@ -1,0 +1,27 @@
+<.header>
+  Listing Exposure records
+  <:actions>
+    <.link href={~p"/exposure_records/new"}>
+      <.button>New Exposure record</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="exposure_records" rows={@exposure_records} row_click={&JS.navigate(~p"/exposure_records/#{&1}")}>
+  <:col :let={exposure_record} label="Reference"><%= exposure_record.reference_id %></:col>
+  <:col :let={exposure_record} label="Project name"><%= exposure_record.project_name %></:col>
+  <:col :let={exposure_record} label="Date loaded"><%= exposure_record.date_loaded %></:col>
+  <:col :let={exposure_record} label="Date exposed"><%= exposure_record.date_exposed %></:col>
+  <:col :let={exposure_record} label="Concept"><%= exposure_record.concept %></:col>
+  <:action :let={exposure_record}>
+    <div class="sr-only">
+      <.link navigate={~p"/exposure_records/#{exposure_record}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/exposure_records/#{exposure_record}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={exposure_record}>
+    <.link href={~p"/exposure_records/#{exposure_record}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

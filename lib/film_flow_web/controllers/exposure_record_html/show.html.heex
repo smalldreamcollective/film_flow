@@ -1,0 +1,19 @@
+<.header>
+  Exposure record <%= @exposure_record.id %>
+  <:subtitle>This is a exposure_record record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/exposure_records/#{@exposure_record}/edit"}>
+      <.button>Edit exposure_record</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Reference"><%= @exposure_record.reference_id %></:item>
+  <:item title="Project name"><%= @exposure_record.project_name %></:item>
+  <:item title="Date loaded"><%= @exposure_record.date_loaded %></:item>
+  <:item title="Date exposed"><%= @exposure_record.date_exposed %></:item>
+  <:item title="Concept"><%= @exposure_record.concept %></:item>
+</.list>
+
+<.back navigate={~p"/exposure_records"}>Back to exposure_records</.back>

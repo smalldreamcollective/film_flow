@@ -1254,4 +1254,100 @@ defmodule FilmFlow.Settings do
   def change_location(%Location{} = location, attrs \\ %{}) do
     Location.changeset(location, attrs)
   end
+
+  alias FilmFlow.Settings.ExposureRecord
+
+  @doc """
+  Returns the list of exposure_records.
+
+  ## Examples
+
+      iex> list_exposure_records()
+      [%ExposureRecord{}, ...]
+
+  """
+  def list_exposure_records do
+    Repo.all(ExposureRecord)
+  end
+
+  @doc """
+  Gets a single exposure_record.
+
+  Raises `Ecto.NoResultsError` if the Exposure record does not exist.
+
+  ## Examples
+
+      iex> get_exposure_record!(123)
+      %ExposureRecord{}
+
+      iex> get_exposure_record!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_exposure_record!(id), do: Repo.get!(ExposureRecord, id)
+
+  @doc """
+  Creates a exposure_record.
+
+  ## Examples
+
+      iex> create_exposure_record(%{field: value})
+      {:ok, %ExposureRecord{}}
+
+      iex> create_exposure_record(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_exposure_record(attrs \\ %{}) do
+    %ExposureRecord{}
+    |> ExposureRecord.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a exposure_record.
+
+  ## Examples
+
+      iex> update_exposure_record(exposure_record, %{field: new_value})
+      {:ok, %ExposureRecord{}}
+
+      iex> update_exposure_record(exposure_record, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_exposure_record(%ExposureRecord{} = exposure_record, attrs) do
+    exposure_record
+    |> ExposureRecord.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a exposure_record.
+
+  ## Examples
+
+      iex> delete_exposure_record(exposure_record)
+      {:ok, %ExposureRecord{}}
+
+      iex> delete_exposure_record(exposure_record)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_exposure_record(%ExposureRecord{} = exposure_record) do
+    Repo.delete(exposure_record)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking exposure_record changes.
+
+  ## Examples
+
+      iex> change_exposure_record(exposure_record)
+      %Ecto.Changeset{data: %ExposureRecord{}}
+
+  """
+  def change_exposure_record(%ExposureRecord{} = exposure_record, attrs \\ %{}) do
+    ExposureRecord.changeset(exposure_record, attrs)
+  end
 end
