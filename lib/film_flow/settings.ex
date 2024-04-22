@@ -870,4 +870,100 @@ defmodule FilmFlow.Settings do
   def change_aperture(%Aperture{} = aperture, attrs \\ %{}) do
     Aperture.changeset(aperture, attrs)
   end
+
+  alias FilmFlow.Settings.Tripod
+
+  @doc """
+  Returns the list of tripods.
+
+  ## Examples
+
+      iex> list_tripods()
+      [%Tripod{}, ...]
+
+  """
+  def list_tripods do
+    Repo.all(Tripod)
+  end
+
+  @doc """
+  Gets a single tripod.
+
+  Raises `Ecto.NoResultsError` if the Tripod does not exist.
+
+  ## Examples
+
+      iex> get_tripod!(123)
+      %Tripod{}
+
+      iex> get_tripod!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_tripod!(id), do: Repo.get!(Tripod, id)
+
+  @doc """
+  Creates a tripod.
+
+  ## Examples
+
+      iex> create_tripod(%{field: value})
+      {:ok, %Tripod{}}
+
+      iex> create_tripod(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_tripod(attrs \\ %{}) do
+    %Tripod{}
+    |> Tripod.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a tripod.
+
+  ## Examples
+
+      iex> update_tripod(tripod, %{field: new_value})
+      {:ok, %Tripod{}}
+
+      iex> update_tripod(tripod, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_tripod(%Tripod{} = tripod, attrs) do
+    tripod
+    |> Tripod.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a tripod.
+
+  ## Examples
+
+      iex> delete_tripod(tripod)
+      {:ok, %Tripod{}}
+
+      iex> delete_tripod(tripod)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_tripod(%Tripod{} = tripod) do
+    Repo.delete(tripod)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking tripod changes.
+
+  ## Examples
+
+      iex> change_tripod(tripod)
+      %Ecto.Changeset{data: %Tripod{}}
+
+  """
+  def change_tripod(%Tripod{} = tripod, attrs \\ %{}) do
+    Tripod.changeset(tripod, attrs)
+  end
 end

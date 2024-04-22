@@ -510,4 +510,66 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_aperture(aperture)
     end
   end
+
+  describe "tripods" do
+    alias FilmFlow.Settings.Tripod
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{description: nil, model: nil, years: nil, url_manual: nil, url_addtional_info: nil}
+
+    test "list_tripods/0 returns all tripods" do
+      tripod = tripod_fixture()
+      assert Settings.list_tripods() == [tripod]
+    end
+
+    test "get_tripod!/1 returns the tripod with given id" do
+      tripod = tripod_fixture()
+      assert Settings.get_tripod!(tripod.id) == tripod
+    end
+
+    test "create_tripod/1 with valid data creates a tripod" do
+      valid_attrs = %{description: "some description", model: "some model", years: "some years", url_manual: "some url_manual", url_addtional_info: "some url_addtional_info"}
+
+      assert {:ok, %Tripod{} = tripod} = Settings.create_tripod(valid_attrs)
+      assert tripod.description == "some description"
+      assert tripod.model == "some model"
+      assert tripod.years == "some years"
+      assert tripod.url_manual == "some url_manual"
+      assert tripod.url_addtional_info == "some url_addtional_info"
+    end
+
+    test "create_tripod/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_tripod(@invalid_attrs)
+    end
+
+    test "update_tripod/2 with valid data updates the tripod" do
+      tripod = tripod_fixture()
+      update_attrs = %{description: "some updated description", model: "some updated model", years: "some updated years", url_manual: "some updated url_manual", url_addtional_info: "some updated url_addtional_info"}
+
+      assert {:ok, %Tripod{} = tripod} = Settings.update_tripod(tripod, update_attrs)
+      assert tripod.description == "some updated description"
+      assert tripod.model == "some updated model"
+      assert tripod.years == "some updated years"
+      assert tripod.url_manual == "some updated url_manual"
+      assert tripod.url_addtional_info == "some updated url_addtional_info"
+    end
+
+    test "update_tripod/2 with invalid data returns error changeset" do
+      tripod = tripod_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_tripod(tripod, @invalid_attrs)
+      assert tripod == Settings.get_tripod!(tripod.id)
+    end
+
+    test "delete_tripod/1 deletes the tripod" do
+      tripod = tripod_fixture()
+      assert {:ok, %Tripod{}} = Settings.delete_tripod(tripod)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_tripod!(tripod.id) end
+    end
+
+    test "change_tripod/1 returns a tripod changeset" do
+      tripod = tripod_fixture()
+      assert %Ecto.Changeset{} = Settings.change_tripod(tripod)
+    end
+  end
 end
