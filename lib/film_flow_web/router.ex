@@ -167,6 +167,15 @@ defmodule FilmFlowWeb.Router do
       patch "/tripods/:id", TripodController, :update
       put "/tripods/:id", TripodController, :update
       delete "/tripods/:id", TripodController, :delete
+
+      get "/zones", ZoneController, :index
+      get "/zones/:id/edit", ZoneController, :edit
+      get "/zones/new", ZoneController, :new
+      get "/zones/:id", ZoneController, :show
+      post "/zones", ZoneController, :create
+      patch "/zones/:id", ZoneController, :update
+      put "/zones/:id", ZoneController, :update
+      delete "/zones/:id", ZoneController, :delete
     end
   end
 

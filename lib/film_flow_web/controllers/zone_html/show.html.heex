@@ -1,0 +1,16 @@
+<.header>
+  Zone <%= @zone.id %>
+  <:subtitle>This is a zone record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/zones/#{@zone}/edit"}>
+      <.button>Edit zone</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @zone.name %></:item>
+  <:item title="Description"><%= @zone.description %></:item>
+</.list>
+
+<.back navigate={~p"/zones"}>Back to zones</.back>

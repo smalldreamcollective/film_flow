@@ -1,0 +1,8 @@
+<.header>
+  Edit Zone <%= @zone.id %>
+  <:subtitle>Use this form to manage zone records in your database.</:subtitle>
+</.header>
+
+<.zone_form changeset={@changeset} action={~p"/zones/#{@zone}"} />
+
+<.back navigate={~p"/zones"}>Back to zones</.back>
