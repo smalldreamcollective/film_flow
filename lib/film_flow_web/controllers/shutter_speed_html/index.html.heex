@@ -1,0 +1,23 @@
+<.header>
+  Listing Shutter speed
+  <:actions>
+    <.link href={~p"/shutter_speed/new"}>
+      <.button>New Shutter speed</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="shutter_speed" rows={@shutter_speed_collection} row_click={&JS.navigate(~p"/shutter_speed/#{&1}")}>
+  <:col :let={shutter_speed} label="Value"><%= shutter_speed.value %></:col>
+  <:action :let={shutter_speed}>
+    <div class="sr-only">
+      <.link navigate={~p"/shutter_speed/#{shutter_speed}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/shutter_speed/#{shutter_speed}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={shutter_speed}>
+    <.link href={~p"/shutter_speed/#{shutter_speed}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

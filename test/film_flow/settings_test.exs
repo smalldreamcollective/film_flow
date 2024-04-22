@@ -402,4 +402,58 @@ defmodule FilmFlow.SettingsTest do
       assert %Ecto.Changeset{} = Settings.change_film(film)
     end
   end
+
+  describe "shutter_speed" do
+    alias FilmFlow.Settings.ShutterSpeed
+
+    import FilmFlow.SettingsFixtures
+
+    @invalid_attrs %{value: nil}
+
+    test "list_shutter_speed/0 returns all shutter_speed" do
+      shutter_speed = shutter_speed_fixture()
+      assert Settings.list_shutter_speed() == [shutter_speed]
+    end
+
+    test "get_shutter_speed!/1 returns the shutter_speed with given id" do
+      shutter_speed = shutter_speed_fixture()
+      assert Settings.get_shutter_speed!(shutter_speed.id) == shutter_speed
+    end
+
+    test "create_shutter_speed/1 with valid data creates a shutter_speed" do
+      valid_attrs = %{value: "some value"}
+
+      assert {:ok, %ShutterSpeed{} = shutter_speed} = Settings.create_shutter_speed(valid_attrs)
+      assert shutter_speed.value == "some value"
+    end
+
+    test "create_shutter_speed/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Settings.create_shutter_speed(@invalid_attrs)
+    end
+
+    test "update_shutter_speed/2 with valid data updates the shutter_speed" do
+      shutter_speed = shutter_speed_fixture()
+      update_attrs = %{value: "some updated value"}
+
+      assert {:ok, %ShutterSpeed{} = shutter_speed} = Settings.update_shutter_speed(shutter_speed, update_attrs)
+      assert shutter_speed.value == "some updated value"
+    end
+
+    test "update_shutter_speed/2 with invalid data returns error changeset" do
+      shutter_speed = shutter_speed_fixture()
+      assert {:error, %Ecto.Changeset{}} = Settings.update_shutter_speed(shutter_speed, @invalid_attrs)
+      assert shutter_speed == Settings.get_shutter_speed!(shutter_speed.id)
+    end
+
+    test "delete_shutter_speed/1 deletes the shutter_speed" do
+      shutter_speed = shutter_speed_fixture()
+      assert {:ok, %ShutterSpeed{}} = Settings.delete_shutter_speed(shutter_speed)
+      assert_raise Ecto.NoResultsError, fn -> Settings.get_shutter_speed!(shutter_speed.id) end
+    end
+
+    test "change_shutter_speed/1 returns a shutter_speed changeset" do
+      shutter_speed = shutter_speed_fixture()
+      assert %Ecto.Changeset{} = Settings.change_shutter_speed(shutter_speed)
+    end
+  end
 end

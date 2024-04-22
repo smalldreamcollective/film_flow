@@ -678,4 +678,100 @@ defmodule FilmFlow.Settings do
   def change_film(%Film{} = film, attrs \\ %{}) do
     Film.changeset(film, attrs)
   end
+
+  alias FilmFlow.Settings.ShutterSpeed
+
+  @doc """
+  Returns the list of shutter_speed.
+
+  ## Examples
+
+      iex> list_shutter_speed()
+      [%ShutterSpeed{}, ...]
+
+  """
+  def list_shutter_speed do
+    Repo.all(ShutterSpeed)
+  end
+
+  @doc """
+  Gets a single shutter_speed.
+
+  Raises `Ecto.NoResultsError` if the Shutter speed does not exist.
+
+  ## Examples
+
+      iex> get_shutter_speed!(123)
+      %ShutterSpeed{}
+
+      iex> get_shutter_speed!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_shutter_speed!(id), do: Repo.get!(ShutterSpeed, id)
+
+  @doc """
+  Creates a shutter_speed.
+
+  ## Examples
+
+      iex> create_shutter_speed(%{field: value})
+      {:ok, %ShutterSpeed{}}
+
+      iex> create_shutter_speed(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_shutter_speed(attrs \\ %{}) do
+    %ShutterSpeed{}
+    |> ShutterSpeed.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a shutter_speed.
+
+  ## Examples
+
+      iex> update_shutter_speed(shutter_speed, %{field: new_value})
+      {:ok, %ShutterSpeed{}}
+
+      iex> update_shutter_speed(shutter_speed, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_shutter_speed(%ShutterSpeed{} = shutter_speed, attrs) do
+    shutter_speed
+    |> ShutterSpeed.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a shutter_speed.
+
+  ## Examples
+
+      iex> delete_shutter_speed(shutter_speed)
+      {:ok, %ShutterSpeed{}}
+
+      iex> delete_shutter_speed(shutter_speed)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_shutter_speed(%ShutterSpeed{} = shutter_speed) do
+    Repo.delete(shutter_speed)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking shutter_speed changes.
+
+  ## Examples
+
+      iex> change_shutter_speed(shutter_speed)
+      %Ecto.Changeset{data: %ShutterSpeed{}}
+
+  """
+  def change_shutter_speed(%ShutterSpeed{} = shutter_speed, attrs \\ %{}) do
+    ShutterSpeed.changeset(shutter_speed, attrs)
+  end
 end
