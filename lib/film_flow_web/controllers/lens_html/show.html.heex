@@ -9,7 +9,7 @@
 </.header>
 
 <.list>
-  <:item title="Make"><%= Tuple.to_list(List.keyfind(@manufacturers, @lens.manufacturer, 1)) %></:item>
+  <:item title="Make"><%= @manufacturer.name %></:item>
   <:item title="Model"><%= @lens.model %></:item>
   <:item title="Description"><%= @lens.description %></:item>
   <:item title="Years"><%= @lens.years %></:item>
