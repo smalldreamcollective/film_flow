@@ -4,26 +4,19 @@ defmodule FilmFlowWeb.LensController do
   alias FilmFlow.Settings
   alias FilmFlow.Settings.Lens
 
-  # def get_manufacturers do
-  #   Settings.list_manufacturers()
-  #   |> Enum.map(&{&1.name, &1.id})
-  # end
-
-  def get_manufacturer_name_by_id(id) do
-    Settings.get_manufacturer!(id)
-  end
-
   def index(conn, _params) do
     lenses = Settings.list_lenses()
-    manufacturers =  Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+    manufacturers = Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
 
     render(conn, :index, lenses: lenses, manufacturers: manufacturers)
   end
 
   def new(conn, _params) do
     changeset = Settings.change_lens(%Lens{})
-    manufacturers =  Settings.list_manufacturers()
-    |> Enum.map(&{&1.name, &1.id})
+
+    manufacturers =
+      Settings.list_manufacturers()
+      |> Enum.map(&{&1.name, &1.id})
 
     render(conn, :new, changeset: changeset, manufacturers: manufacturers)
   end
@@ -36,21 +29,22 @@ defmodule FilmFlowWeb.LensController do
         |> redirect(to: ~p"/lenses/#{lens}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        manufacturers =  Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+        manufacturers = Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
         render(conn, :new, changeset: changeset, manufacturers: manufacturers)
     end
   end
 
   def show(conn, %{"id" => id}) do
     lens = Settings.get_lens!(id)
-    manufacturers =  Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
-    render(conn, :show, lens: lens, manufacturers: manufacturers)
+    manufacturer = Settings.get_manufacturer!(lens.manufacturer)
+    # manufacturers =  Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+    render(conn, :show, lens: lens, manufacturer: manufacturer)
   end
 
   def edit(conn, %{"id" => id}) do
     lens = Settings.get_lens!(id)
     changeset = Settings.change_lens(lens)
-    manufacturers =  Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+    manufacturers = Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
     render(conn, :edit, lens: lens, changeset: changeset, manufacturers: manufacturers)
   end
 
@@ -64,7 +58,7 @@ defmodule FilmFlowWeb.LensController do
         |> redirect(to: ~p"/lenses/#{lens}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        manufacturers =  Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+        manufacturers = Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
         render(conn, :edit, lens: lens, changeset: changeset, manufacturers: manufacturers)
     end
   end
