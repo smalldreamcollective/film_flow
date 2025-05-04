@@ -2,6 +2,5 @@
   Edit Lens <%= @lens.id %>
   <:subtitle>Use this form to manage lens records in your database.</:subtitle>
 </.header>
-
 <.lens_form changeset={@changeset} action={~p"/lenses/#{@lens}"} manufacturers={@manufacturers} />
 <.back navigate={~p"/lenses"}>Back to lenses</.back>
