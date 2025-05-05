@@ -39,6 +39,8 @@ defmodule FilmFlow.SettingsFixtures do
   Generate a lens.
   """
   def lens_fixture(attrs \\ %{}) do
+    manufacturer = manufacturer_fixture()
+
     {:ok, lens} =
       attrs
       |> Enum.into(%{
@@ -46,7 +48,8 @@ defmodule FilmFlow.SettingsFixtures do
         model: "some model",
         url_additional_info: "some url_additional_info",
         url_manual: "some url_manual",
-        years: "some years"
+        years: "some years",
+        manufacturer_id: manufacturer.id
       })
       |> FilmFlow.Settings.create_lens()
 

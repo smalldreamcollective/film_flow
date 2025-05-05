@@ -8,7 +8,7 @@ defmodule FilmFlowWeb.LensHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
-  #attr :manufacturers, :list, required: false
+  attr :manufacturers, :list, required: true
 
   def lens_form(assigns)
 end

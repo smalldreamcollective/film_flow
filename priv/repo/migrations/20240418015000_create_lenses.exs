@@ -8,11 +8,11 @@ defmodule FilmFlow.Repo.Migrations.CreateLenses do
       add :years, :string
       add :url_manual, :string
       add :url_additional_info, :string
-      add :manufacturer, references(:manufacturers, on_delete: :nothing)
+      add :manufacturer_id, references(:manufacturers, on_delete: :nothing)
 
       timestamps(type: :utc_datetime)
     end
 
-    create index(:lenses, [:manufacturer])
+    create index(:lenses, [:manufacturer_id])
   end
 end

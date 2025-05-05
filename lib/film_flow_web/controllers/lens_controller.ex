@@ -36,9 +36,7 @@ defmodule FilmFlowWeb.LensController do
 
   def show(conn, %{"id" => id}) do
     lens = Settings.get_lens!(id)
-    manufacturer = Settings.get_manufacturer!(lens.manufacturer)
-    # manufacturers =  Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
-    render(conn, :show, lens: lens, manufacturer: manufacturer)
+    render(conn, :show, lens: lens)
   end
 
   def edit(conn, %{"id" => id}) do

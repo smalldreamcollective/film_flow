@@ -4,8 +4,8 @@ defmodule FilmFlow.Settings.Camera do
 
   schema "cameras" do
     field :name, :string
-    field :brand, :string
     field :model, :string
+    belongs_to :manufacturer, FilmFlow.Settings.Manufacturer
 
     timestamps(type: :utc_datetime)
   end
@@ -13,7 +13,8 @@ defmodule FilmFlow.Settings.Camera do
   @doc false
   def changeset(camera, attrs) do
     camera
-    |> cast(attrs, [:name, :brand, :model])
-    |> validate_required([:name, :brand, :model])
+    |> cast(attrs, [:name, :model, :manufacturer_id])
+    |> validate_required([:name, :model, :manufacturer_id])
+    |> foreign_key_constraint(:manufacturer_id)
   end
 end

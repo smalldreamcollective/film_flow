@@ -8,7 +8,7 @@
 </.header>
 
 <.table id="lenses" rows={@lenses} row_click={&JS.navigate(~p"/lenses/#{&1}")} >
-  <:col :let={lens} label="Make"><%= Tuple.to_list(List.keyfind(@manufacturers, lens.manufacturer, 1))  %></:col>
+  <:col :let={lens} label="Make"><%= if lens.manufacturer, do: lens.manufacturer.name, else: "Unknown" %></:col>
   <:col :let={lens} label="Model"><%= lens.model %></:col>
   <:col :let={lens} label="Description"><%= lens.description %></:col>
   <:col :let={lens} label="Years"><%= lens.years %></:col>
