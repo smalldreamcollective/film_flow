@@ -13,7 +13,7 @@ defmodule FilmFlow.Settings.Exposure do
     field :shutter_speed, :id
     field :camera, :id
     field :zone, :id
-    field :lense, :id
+    field :lens, :id
     field :filter, :id
     field :tripod, :id
     field :holder, :id
