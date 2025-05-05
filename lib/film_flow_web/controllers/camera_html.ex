@@ -8,6 +8,7 @@ defmodule FilmFlowWeb.CameraHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
+  attr :manufacturers, :list, required: true
 
   def camera_form(assigns)
 end

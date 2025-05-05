@@ -22,6 +22,13 @@ defmodule FilmFlow.Settings do
   end
 
   @doc """
+  Preloads manufacturer data for cameras.
+  """
+  def preload_cameras(camera_or_cameras) do
+    Repo.preload(camera_or_cameras, :manufacturer)
+  end
+
+  @doc """
   Gets a single camera.
 
   Raises `Ecto.NoResultsError` if the Camera does not exist.
@@ -210,7 +217,9 @@ defmodule FilmFlow.Settings do
 
   """
   def list_lenses do
-    Repo.all(Lens)
+    Lens
+    |> preload(:manufacturer)
+    |> Repo.all()
   end
 
   @doc """
@@ -227,7 +236,11 @@ defmodule FilmFlow.Settings do
       ** (Ecto.NoResultsError)
 
   """
-  def get_lens!(id), do: Repo.get!(Lens, id)
+  def get_lens!(id) do
+    Lens
+    |> preload(:manufacturer)
+    |> Repo.get!(id)
+  end
 
   @doc """
   Creates a lens.
@@ -245,6 +258,10 @@ defmodule FilmFlow.Settings do
     %Lens{}
     |> Lens.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, lens} -> {:ok, Repo.preload(lens, :manufacturer)}
+      error -> error
+    end
   end
 
   @doc """
@@ -263,6 +280,10 @@ defmodule FilmFlow.Settings do
     lens
     |> Lens.changeset(attrs)
     |> Repo.update()
+    |> case do
+      {:ok, lens} -> {:ok, Repo.preload(lens, :manufacturer)}
+      error -> error
+    end
   end
 
   @doc """
@@ -293,7 +314,6 @@ defmodule FilmFlow.Settings do
   def change_lens(%Lens{} = lens, attrs \\ %{}) do
     Lens.changeset(lens, attrs)
   end
-
 
   alias FilmFlow.Settings.Format
 

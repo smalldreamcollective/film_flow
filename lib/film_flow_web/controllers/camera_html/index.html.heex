@@ -9,7 +9,7 @@
 
 <.table id="cameras" rows={@cameras} row_click={&JS.navigate(~p"/cameras/#{&1}")}>
   <:col :let={camera} label="Name"><%= camera.name %></:col>
-  <:col :let={camera} label="Brand"><%= camera.brand %></:col>
+  <:col :let={camera} label="Manufacturer"><%= camera.manufacturer.name %></:col>
   <:col :let={camera} label="Model"><%= camera.model %></:col>
   <:action :let={camera}>
     <div class="sr-only">

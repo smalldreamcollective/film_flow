@@ -5,13 +5,14 @@ defmodule FilmFlowWeb.CameraController do
   alias FilmFlow.Settings.Camera
 
   def index(conn, _params) do
-    cameras = Settings.list_cameras()
+    cameras = Settings.list_cameras() |> Settings.preload_cameras()
     render(conn, :index, cameras: cameras)
   end
 
   def new(conn, _params) do
     changeset = Settings.change_camera(%Camera{})
-    render(conn, :new, changeset: changeset)
+    manufacturers = Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+    render(conn, :new, changeset: changeset, manufacturers: manufacturers)
   end
 
   def create(conn, %{"camera" => camera_params}) do
@@ -22,19 +23,21 @@ defmodule FilmFlowWeb.CameraController do
         |> redirect(to: ~p"/cameras/#{camera}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        manufacturers = Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+        render(conn, :new, changeset: changeset, manufacturers: manufacturers)
     end
   end
 
   def show(conn, %{"id" => id}) do
-    camera = Settings.get_camera!(id)
+    camera = Settings.get_camera!(id) |> Settings.preload_cameras()
     render(conn, :show, camera: camera)
   end
 
   def edit(conn, %{"id" => id}) do
-    camera = Settings.get_camera!(id)
+    camera = Settings.get_camera!(id) |> Settings.preload_cameras()
     changeset = Settings.change_camera(camera)
-    render(conn, :edit, camera: camera, changeset: changeset)
+    manufacturers = Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+    render(conn, :edit, camera: camera, changeset: changeset, manufacturers: manufacturers)
   end
 
   def update(conn, %{"id" => id, "camera" => camera_params}) do
@@ -47,7 +50,8 @@ defmodule FilmFlowWeb.CameraController do
         |> redirect(to: ~p"/cameras/#{camera}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, camera: camera, changeset: changeset)
+        manufacturers = Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+        render(conn, :edit, camera: camera, changeset: changeset, manufacturers: manufacturers)
     end
   end
 

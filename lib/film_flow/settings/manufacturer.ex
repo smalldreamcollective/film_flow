@@ -5,6 +5,7 @@ defmodule FilmFlow.Settings.Manufacturer do
   schema "manufacturers" do
     field :name, :string
     field :url, :string
+    has_many :lenses, FilmFlow.Settings.Lens
 
     timestamps(type: :utc_datetime)
   end

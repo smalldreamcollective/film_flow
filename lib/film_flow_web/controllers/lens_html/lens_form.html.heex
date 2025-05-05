@@ -1,8 +1,8 @@
-<.simple_form :let={f} for={@changeset} action={@action} {@manufacturers}>
+<.simple_form :let={f} for={@changeset} action={@action}>
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:manufacturer]} type="select" options={@manufacturers} label="Maker" />
+  <.input field={f[:manufacturer_id]} type="select" options={@manufacturers} label="Maker" />
   <.input field={f[:model]} type="text" label="Model" />
   <.input field={f[:description]} type="text" label="Description" />
   <.input field={f[:years]} type="text" label="Years" />
