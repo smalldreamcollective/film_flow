@@ -5,13 +5,14 @@ defmodule FilmFlowWeb.TripodController do
   alias FilmFlow.Settings.Tripod
 
   def index(conn, _params) do
-    tripods = Settings.list_tripods()
+    tripods = Settings.list_tripods() |> Settings.preload_tripods()
     render(conn, :index, tripods: tripods)
   end
 
   def new(conn, _params) do
     changeset = Settings.change_tripod(%Tripod{})
-    render(conn, :new, changeset: changeset)
+    manufacturers = Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+    render(conn, :new, changeset: changeset, manufacturers: manufacturers)
   end
 
   def create(conn, %{"tripod" => tripod_params}) do
@@ -22,19 +23,21 @@ defmodule FilmFlowWeb.TripodController do
         |> redirect(to: ~p"/tripods/#{tripod}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        manufacturers = Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+        render(conn, :new, changeset: changeset, manufacturers: manufacturers)
     end
   end
 
   def show(conn, %{"id" => id}) do
-    tripod = Settings.get_tripod!(id)
+    tripod = Settings.get_tripod!(id) |> Settings.preload_tripods()
     render(conn, :show, tripod: tripod)
   end
 
   def edit(conn, %{"id" => id}) do
-    tripod = Settings.get_tripod!(id)
+    tripod = Settings.get_tripod!(id) |> Settings.preload_tripods()
     changeset = Settings.change_tripod(tripod)
-    render(conn, :edit, tripod: tripod, changeset: changeset)
+    manufacturers = Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+    render(conn, :edit, tripod: tripod, changeset: changeset, manufacturers: manufacturers)
   end
 
   def update(conn, %{"id" => id, "tripod" => tripod_params}) do
@@ -47,7 +50,8 @@ defmodule FilmFlowWeb.TripodController do
         |> redirect(to: ~p"/tripods/#{tripod}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, tripod: tripod, changeset: changeset)
+        manufacturers = Settings.list_manufacturers() |> Enum.map(&{&1.name, &1.id})
+        render(conn, :edit, tripod: tripod, changeset: changeset, manufacturers: manufacturers)
     end
   end
 

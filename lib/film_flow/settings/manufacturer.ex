@@ -6,6 +6,7 @@ defmodule FilmFlow.Settings.Manufacturer do
     field :name, :string
     field :url, :string
     has_many :lenses, FilmFlow.Settings.Lens
+    has_many :tripods, FilmFlow.Settings.Tripod
 
     timestamps(type: :utc_datetime)
   end
