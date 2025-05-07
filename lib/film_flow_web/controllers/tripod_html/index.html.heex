@@ -9,10 +9,11 @@
 
 <.table id="tripods" rows={@tripods} row_click={&JS.navigate(~p"/tripods/#{&1}")}>
   <:col :let={tripod} label="Model"><%= tripod.model %></:col>
+  <:col :let={tripod} label="Manufacturer"><%= tripod.manufacturer.name %></:col>
   <:col :let={tripod} label="Description"><%= tripod.description %></:col>
   <:col :let={tripod} label="Years"><%= tripod.years %></:col>
   <:col :let={tripod} label="Url manual"><%= tripod.url_manual %></:col>
-  <:col :let={tripod} label="Url addtional info"><%= tripod.url_addtional_info %></:col>
+  <:col :let={tripod} label="Url additional info"><%= tripod.url_additional_info %></:col>
   <:action :let={tripod}>
     <div class="sr-only">
       <.link navigate={~p"/tripods/#{tripod}"}>Show</.link>

@@ -894,6 +894,13 @@ defmodule FilmFlow.Settings do
   alias FilmFlow.Settings.Tripod
 
   @doc """
+  Preloads manufacturer data for tripods.
+  """
+  def preload_tripods(tripod_or_tripods) do
+    Repo.preload(tripod_or_tripods, :manufacturer)
+  end
+
+  @doc """
   Returns the list of tripods.
 
   ## Examples
@@ -903,7 +910,9 @@ defmodule FilmFlow.Settings do
 
   """
   def list_tripods do
-    Repo.all(Tripod)
+    Tripod
+    |> preload(:manufacturer)
+    |> Repo.all()
   end
 
   @doc """

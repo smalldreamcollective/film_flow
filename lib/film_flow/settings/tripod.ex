@@ -7,8 +7,8 @@ defmodule FilmFlow.Settings.Tripod do
     field :model, :string
     field :years, :string
     field :url_manual, :string
-    field :url_addtional_info, :string
-    field :manufacture, :id
+    field :url_additional_info, :string
+    belongs_to :manufacturer, FilmFlow.Settings.Manufacturer
 
     timestamps(type: :utc_datetime)
   end
@@ -16,7 +16,22 @@ defmodule FilmFlow.Settings.Tripod do
   @doc false
   def changeset(tripod, attrs) do
     tripod
-    |> cast(attrs, [:model, :description, :years, :url_manual, :url_addtional_info])
-    |> validate_required([:model, :description, :years, :url_manual, :url_addtional_info])
+    |> cast(attrs, [
+      :model,
+      :description,
+      :years,
+      :url_manual,
+      :url_additional_info,
+      :manufacturer_id
+    ])
+    |> validate_required([
+      :model,
+      :description,
+      :years,
+      :url_manual,
+      :url_additional_info,
+      :manufacturer_id
+    ])
+    |> foreign_key_constraint(:manufacturer_id)
   end
 end

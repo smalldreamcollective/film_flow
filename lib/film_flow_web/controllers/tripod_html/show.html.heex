@@ -10,10 +10,11 @@
 
 <.list>
   <:item title="Model"><%= @tripod.model %></:item>
+  <:item title="Manufacturer"><%= @tripod.manufacturer.name %></:item>
   <:item title="Description"><%= @tripod.description %></:item>
   <:item title="Years"><%= @tripod.years %></:item>
   <:item title="Url manual"><%= @tripod.url_manual %></:item>
-  <:item title="Url addtional info"><%= @tripod.url_addtional_info %></:item>
+  <:item title="Url additional info"><%= @tripod.url_additional_info %></:item>
 </.list>
 
 <.back navigate={~p"/tripods"}>Back to tripods</.back>

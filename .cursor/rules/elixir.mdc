@@ -1,0 +1,11 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Your rule content
+
+- Only use the Elixir programming language
+- Be as concise as possible
+- Comment all code

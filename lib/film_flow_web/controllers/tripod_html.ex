@@ -8,6 +8,7 @@ defmodule FilmFlowWeb.TripodHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
+  attr :manufacturers, :list, required: true
 
   def tripod_form(assigns)
 end
