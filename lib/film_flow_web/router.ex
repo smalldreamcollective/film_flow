@@ -21,15 +21,6 @@ defmodule FilmFlowWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-    # GET     /users           HelloWeb.UserController :index
-    # GET     /users/:id/edit  HelloWeb.UserController :edit
-    # GET     /users/new       HelloWeb.UserController :new
-    # GET     /users/:id       HelloWeb.UserController :show
-    # POST    /users           HelloWeb.UserController :create
-    # PATCH   /users/:id       HelloWeb.UserController :update
-    # PUT     /users/:id       HelloWeb.UserController :update
-    # DELETE  /users/:id       HelloWeb.UserController :delete
-
   end
 
   # Other scopes may use custom stacks.
@@ -77,6 +68,7 @@ defmodule FilmFlowWeb.Router do
       on_mount: [{FilmFlowWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+      live "/exposure-guide", ExposureGuideLive.Index, :index
 
       get "/cameras", CameraController, :index
       get "/cameras/:id/edit", CameraController, :edit

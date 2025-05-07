@@ -1,0 +1,240 @@
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-4">Photography Exposure Guide</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Left Column -->
+    <div>
+      <div class="bg-gray-100 p-4 rounded-lg mb-6 text-xs">
+        <h3 class="text-base font-bold mb-2">Exposure Values (EV)</h3>
+        <div class="overflow-auto max-h-96">
+          <table class="min-w-full border">
+            <thead>
+              <tr>
+                <th class="border px-4 py-2 bg-gray-200">EV</th>
+                <th class="border px-4 py-2 bg-gray-200">LIGHTING CONDITIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for item <- @exposure_values do %>
+                <tr class={
+                  if to_string(item.ev) == to_string(@selected_ev),
+                    do: "bg-blue-200",
+                    else: "hover:bg-gray-50"
+                }>
+                  <td class="border px-4 py-2 text-center">
+                    <button
+                      type="button"
+                      phx-click="select_ev"
+                      phx-value-ev={item.ev}
+                      class="w-full h-full"
+                    >
+                      <%= item.ev %>
+                    </button>
+                  </td>
+                  <td class="border px-4 py-2">
+                    <button
+                      type="button"
+                      phx-click="select_ev"
+                      phx-value-ev={item.ev}
+                      class="w-full h-full text-left"
+                    >
+                      <%= item.condition %>
+                    </button>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-gray-100 p-4 rounded-lg text-xs">
+        <h3 class="text-base font-bold mb-2">Sunny 16 Rule</h3>
+        <p class="mb-2">
+          On a sunny day set aperture to f/16 and shutter speed to the reciprocal of the ISO film speed.
+        </p>
+        <p>
+          Example: Shooting on a sunny day with <%= @iso %> ISO film, set the shutter speed to 1/<%= @iso %>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Middle Column -->
+    <div>
+      <div class="bg-gray-100 p-4 rounded-lg mb-6 text-xs">
+        <h3 class="text-base font-bold mb-2">The Zone System</h3>
+        <div class="overflow-auto max-h-72">
+          <table class="min-w-full border">
+            <thead>
+              <tr>
+                <th class="border px-4 py-2 bg-gray-200 w-1/6">ZONE</th>
+                <th class="border px-4 py-2 bg-gray-200">DESCRIPTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for zone <- @zone_system do %>
+                <tr class={
+                  if zone.zone == @selected_zone, do: "bg-blue-200", else: "hover:bg-gray-50"
+                }>
+                  <td class="border px-4 py-2 text-center">
+                    <button
+                      type="button"
+                      phx-click="select_zone"
+                      phx-value-zone={zone.zone}
+                      class="w-full h-full"
+                    >
+                      <%= zone.zone %>
+                    </button>
+                  </td>
+                  <td class="border px-4 py-2">
+                    <button
+                      type="button"
+                      phx-click="select_zone"
+                      phx-value-zone={zone.zone}
+                      class="w-full h-full text-left"
+                    >
+                      <%= zone.description %>
+                    </button>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-gray-100 p-4 rounded-lg mb-6 text-xs">
+        <h3 class="text-base font-bold mb-2">Exposure Calculator</h3>
+        <div class="flex flex-col gap-2 mb-4">
+          <div>
+            <label class="block font-medium mb-1">ISO</label>
+            <select class="w-full p-2 border rounded text-xs" phx-change="update_iso">
+              <%= for iso <- [50, 100, 200, 400, 800, 1600, 3200, 6400] do %>
+                <option value={iso} selected={@iso == iso}><%= iso %></option>
+              <% end %>
+            </select>
+          </div>
+          <div>
+            <label class="block font-medium mb-1">Aperture</label>
+            <input
+              type="text"
+              value={@aperture}
+              readonly
+              class="w-full p-2 border rounded bg-gray-50 text-xs"
+            />
+          </div>
+          <div>
+            <label class="block font-medium mb-1">Shutter Speed</label>
+            <input
+              type="text"
+              value={@shutter_speed}
+              readonly
+              class="w-full p-2 border rounded bg-gray-50 text-xs"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div>
+      <div class="bg-gray-100 p-4 rounded-lg text-xs">
+        <h3 class="text-base font-bold mb-2">Symbol Key</h3>
+        <div class="grid grid-cols-4 gap-1">
+          <%= for symbol <- @symbol_key do %>
+            <button
+              phx-click="toggle_symbol"
+              phx-value-symbol={symbol.symbol}
+              class={"flex flex-col items-center justify-center px-1 py-1 rounded-md text-xs #{if symbol.symbol in @used_symbols, do: "bg-blue-100 text-blue-800", else: "bg-gray-100 text-gray-700 hover:bg-gray-200"}"}
+            >
+              <span class="text-lg mb-0.5"><%= symbol.symbol %></span>
+              <span class="text-[10px] text-center"><%= symbol.meaning %></span>
+            </button>
+          <% end %>
+        </div>
+      </div>
+      <div class="bg-gray-100 p-4 rounded-lg mb-6 text-xs mt-6">
+        <h3 class="text-base font-bold mb-4">Shooting Conditions</h3>
+        <div class="grid grid-cols-2 gap-3">
+          <%= for symbol <- @symbol_key do %>
+            <div class="flex items-center">
+              <input
+                type="checkbox"
+                id={"symbol-#{symbol.symbol}"}
+                phx-click="toggle_symbol"
+                phx-value-symbol={symbol.symbol}
+                checked={symbol.symbol in @used_symbols}
+                class="mr-2"
+              />
+              <label for={"symbol-#{symbol.symbol}"} class="flex items-center cursor-pointer">
+                <span class="text-lg mr-1"><%= symbol.symbol %></span>
+                <span class="text-xs"><%= symbol.meaning %></span>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="bg-gray-100 p-4 rounded-lg text-xs">
+        <h3 class="text-base font-bold mb-2">Notes</h3>
+        <textarea
+          class="w-full p-2 border rounded"
+          rows="3"
+          phx-change="update_notes"
+          phx-debounce="300"
+        ><%= @notes %></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 bg-gray-100 p-4 rounded-lg text-xs">
+    <h3 class="text-base font-bold mb-2">Reciprocity Failure</h3>
+    <p>
+      Longer exposure times (and occasionally very short times) require compensation to ensure correct exposure. This varies film to film: consult the data sheet that came with the film, contact the manufacturer, or research online.
+    </p>
+  </div>
+
+  <!-- Metered Exposure / Compensated Exposure Panel -->
+  <div class="mt-6 bg-gray-100 p-4 rounded-lg text-xs">
+    <h3 class="text-base font-bold mb-2">Metered Exposure / Compensated Exposure</h3>
+    <form phx-submit="save_metered_exposure">
+      <div class="font-semibold text-xs mb-1">Metered Exposure</div>
+      <div class="flex mb-2">
+        <div class="w-32"></div>
+        <div class="grid grid-cols-10 gap-0 flex-1">
+          <%= for col <- 0..9 do %>
+            <input type="text" name={"metered_exposure[metered][" <> to_string(col) <> "]"} class="w-full p-1 rounded border text-xs text-center" />
+          <% end %>
+        </div>
+      </div>
+      <div class="font-semibold text-xs mb-1">Film / Compensated Exposure</div>
+      <table class="min-w-full border text-xs mb-2">
+        <thead>
+          <tr>
+            <th class="border px-2 py-1 bg-gray-200 w-32">Film</th>
+            <th class="border px-2 py-1 bg-gray-200" colspan="10">Compensated Exposure</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for row <- 0..5 do %>
+            <tr>
+              <td class="border px-2 py-1 w-32">
+                <select name={"metered_exposure[" <> to_string(row) <> "][film_id]"} class="w-full p-1 rounded border text-xs">
+                  <option value="">Select film</option>
+                  <%= for film <- @films do %>
+                    <option value={film.id}><%= film.name %></option>
+                  <% end %>
+                </select>
+              </td>
+              <%= for col <- 0..9 do %>
+                <td class="border px-1 py-1">
+                  <input type="text" name={"metered_exposure[" <> to_string(row) <> "][compensated][" <> to_string(col) <> "]"} class="w-full p-1 rounded border text-xs text-center" />
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Save</button>
+    </form>
+  </div>
+</div> 
