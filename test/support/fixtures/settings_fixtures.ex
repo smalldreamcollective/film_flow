@@ -8,12 +8,15 @@ defmodule FilmFlow.SettingsFixtures do
   Generate a camera.
   """
   def camera_fixture(attrs \\ %{}) do
+    manufacturer = manufacturer_fixture()
+
     {:ok, camera} =
       attrs
       |> Enum.into(%{
         brand: "some brand",
         model: "some model",
-        name: "some name"
+        name: "some name",
+        manufacturer_id: manufacturer.id
       })
       |> FilmFlow.Settings.create_camera()
 
@@ -148,14 +151,17 @@ defmodule FilmFlow.SettingsFixtures do
   Generate a tripod.
   """
   def tripod_fixture(attrs \\ %{}) do
+    manufacturer = manufacturer_fixture()
+
     {:ok, tripod} =
       attrs
       |> Enum.into(%{
         description: "some description",
         model: "some model",
-        url_addtional_info: "some url_addtional_info",
+        url_additional_info: "some url_additional_info",
         url_manual: "some url_manual",
-        years: "some years"
+        years: "some years",
+        manufacturer_id: manufacturer.id
       })
       |> FilmFlow.Settings.create_tripod()
 

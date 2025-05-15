@@ -155,7 +155,7 @@ defmodule FilmFlowWeb.ExposureGuideLive.Index do
     end
   end
 
-  defp calculate_exposure(ev, iso) do
+  defp calculate_exposure(_ev, _iso) do
     # For non-integer EV ranges like "17-21"
     {"Varies", "Varies"}
   end

@@ -1,0 +1,82 @@
+name: Elixir CI
+
+# Trigger the workflow on push or pull request events but only for the main branch
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    # Define a service container for PostgreSQL
+    services:
+      postgres:
+        image: postgres:14 # Using PostgreSQL 14, adjust if needed
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: film_flow_test # Default Phoenix test database name
+        ports:
+          - 5432:5432 # Map port for the runner to connect
+        # Health check for the PostgreSQL service
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      # Check out the repository code
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      # Set up Elixir and OTP
+      - name: Set up Elixir
+        uses: erlef/setup-elixir@v1
+        with:
+          elixir-version: '1.14.x' # Matches your mix.exs
+          otp-version: '25.x' # Compatible OTP version
+
+      # Cache dependencies for faster builds
+      - name: Restore dependencies cache
+        uses: actions/cache@v4
+        id: deps-cache # Give an ID to the cache step
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-
+
+      # Install dependencies if cache was not hit or is outdated
+      - name: Install dependencies
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        run: mix deps.get
+
+      # Compile the application, treating warnings as errors
+      - name: Compile application
+        run: mix compile --warnings-as-errors
+
+      # Check code formatting
+      - name: Check formatting
+        run: mix format --check-formatted
+
+      # Run the test suite
+      # The mix test alias in your mix.exs handles ecto.create and ecto.migrate
+      - name: Run tests
+        env:
+          MIX_ENV: test
+          # Ensure Ecto uses the PostgreSQL service container
+          # This assumes your config/test.exs is set up to use these,
+          # or a DATABASE_URL composed from them.
+          # Default Phoenix test config uses these individual env vars or a DATABASE_URL.
+          # If your config/test.exs directly uses "localhost", "postgres", "password",
+          # this might be redundant but doesn't hurt.
+          # Forcing DATABASE_URL is often more explicit for CI.
+          DATABASE_URL: ecto://postgres:password@localhost:5432/film_flow_test
+        run: mix test

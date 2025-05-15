@@ -8,31 +8,37 @@ defmodule FilmFlow.Repo.Migrations.CreateExposures do
       add :date_exposed, :utc_datetime
       add :lighting_condition, :text
       add :notes, :text
-      add :exposure_record, references(:exposure_records, on_delete: :nothing)
-      add :location, references(:locations, on_delete: :nothing)
-      add :shutter_speed, references(:shutter_speed, on_delete: :nothing)
-      add :camera, references(:cameras, on_delete: :nothing)
-      add :zone, references(:zones, on_delete: :nothing)
-      add :lens, references(:lenses, on_delete: :nothing)
-      add :filter, references(:filters, on_delete: :nothing)
-      add :tripod, references(:tripods, on_delete: :nothing)
-      add :holder, references(:holders, on_delete: :nothing)
-      add :film_back, references(:film_backs, on_delete: :nothing)
-      add :film_roll, references(:film_rolls, on_delete: :nothing)
+
+      add :exposure_record_id, references(:exposure_records, column: :id, on_delete: :nothing),
+        null: true
+
+      add :location_id, references(:locations, column: :id, on_delete: :nothing), null: true
+
+      add :shutter_speed_id, references(:shutter_speed, column: :id, on_delete: :nothing),
+        null: true
+
+      add :camera_id, references(:cameras, column: :id, on_delete: :nothing), null: true
+      add :zone_id, references(:zones, column: :id, on_delete: :nothing), null: true
+      add :lens_id, references(:lenses, column: :id, on_delete: :nothing), null: true
+      add :filter_id, references(:filters, column: :id, on_delete: :nothing), null: true
+      add :tripod_id, references(:tripods, column: :id, on_delete: :nothing), null: true
+      add :holder_id, references(:holders, column: :id, on_delete: :nothing), null: true
+      add :film_back_id, references(:film_backs, column: :id, on_delete: :nothing), null: true
+      add :film_roll_id, references(:film_rolls, column: :id, on_delete: :nothing), null: true
 
       timestamps(type: :utc_datetime)
     end
 
-    create index(:exposures, [:exposure_record])
-    create index(:exposures, [:location])
-    create index(:exposures, [:shutter_speed])
-    create index(:exposures, [:camera])
-    create index(:exposures, [:zone])
-    create index(:exposures, [:lens])
-    create index(:exposures, [:filter])
-    create index(:exposures, [:tripod])
-    create index(:exposures, [:holder])
-    create index(:exposures, [:film_back])
-    create index(:exposures, [:film_roll])
+    create index(:exposures, [:exposure_record_id])
+    create index(:exposures, [:location_id])
+    create index(:exposures, [:shutter_speed_id])
+    create index(:exposures, [:camera_id])
+    create index(:exposures, [:zone_id])
+    create index(:exposures, [:lens_id])
+    create index(:exposures, [:filter_id])
+    create index(:exposures, [:tripod_id])
+    create index(:exposures, [:holder_id])
+    create index(:exposures, [:film_back_id])
+    create index(:exposures, [:film_roll_id])
   end
 end
