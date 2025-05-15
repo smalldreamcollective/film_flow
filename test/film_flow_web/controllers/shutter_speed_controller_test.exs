@@ -66,7 +66,11 @@ defmodule FilmFlowWeb.ShutterSpeedControllerTest do
   describe "edit shutter_speed" do
     setup [:create_shutter_speed]
 
-    test "renders form for editing chosen shutter_speed", %{conn: conn, shutter_speed: shutter_speed, user: user} do
+    test "renders form for editing chosen shutter_speed", %{
+      conn: conn,
+      shutter_speed: shutter_speed,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -93,7 +97,11 @@ defmodule FilmFlowWeb.ShutterSpeedControllerTest do
       assert html_response(conn, 200) =~ "some updated value"
     end
 
-    test "renders errors when data is invalid", %{conn: conn, shutter_speed: shutter_speed, user: user} do
+    test "renders errors when data is invalid", %{
+      conn: conn,
+      shutter_speed: shutter_speed,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}

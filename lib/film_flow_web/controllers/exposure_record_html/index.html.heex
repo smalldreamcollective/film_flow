@@ -7,7 +7,11 @@
   </:actions>
 </.header>
 
-<.table id="exposure_records" rows={@exposure_records} row_click={&JS.navigate(~p"/exposure_records/#{&1}")}>
+<.table
+  id="exposure_records"
+  rows={@exposure_records}
+  row_click={&JS.navigate(~p"/exposure_records/#{&1}")}
+>
   <:col :let={exposure_record} label="Reference"><%= exposure_record.reference_id %></:col>
   <:col :let={exposure_record} label="Project name"><%= exposure_record.project_name %></:col>
   <:col :let={exposure_record} label="Date loaded"><%= exposure_record.date_loaded %></:col>
@@ -20,7 +24,11 @@
     <.link navigate={~p"/exposure_records/#{exposure_record}/edit"}>Edit</.link>
   </:action>
   <:action :let={exposure_record}>
-    <.link href={~p"/exposure_records/#{exposure_record}"} method="delete" data-confirm="Are you sure?">
+    <.link
+      href={~p"/exposure_records/#{exposure_record}"}
+      method="delete"
+      data-confirm="Are you sure?"
+    >
       Delete
     </.link>
   </:action>

@@ -66,7 +66,11 @@ defmodule FilmFlowWeb.ManufacturerControllerTest do
   describe "edit manufacturer" do
     setup [:create_manufacturer]
 
-    test "renders form for editing chosen manufacturer", %{conn: conn, manufacturer: manufacturer, user: user} do
+    test "renders form for editing chosen manufacturer", %{
+      conn: conn,
+      manufacturer: manufacturer,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -93,7 +97,11 @@ defmodule FilmFlowWeb.ManufacturerControllerTest do
       assert html_response(conn, 200) =~ "some updated name"
     end
 
-    test "renders errors when data is invalid", %{conn: conn, manufacturer: manufacturer, user: user} do
+    test "renders errors when data is invalid", %{
+      conn: conn,
+      manufacturer: manufacturer,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}

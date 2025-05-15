@@ -7,7 +7,11 @@
   </:actions>
 </.header>
 
-<.table id="photographers" rows={@photographers} row_click={&JS.navigate(~p"/photographers/#{&1}")}>
+<.table
+  id="photographers"
+  rows={@photographers}
+  row_click={&JS.navigate(~p"/photographers/#{&1}")}
+>
   <:col :let={photographer} label="First name"><%= photographer.first_name %></:col>
   <:col :let={photographer} label="Middle name"><%= photographer.middle_name %></:col>
   <:col :let={photographer} label="Last name"><%= photographer.last_name %></:col>

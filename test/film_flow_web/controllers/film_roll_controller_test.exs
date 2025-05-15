@@ -8,9 +8,27 @@ defmodule FilmFlowWeb.FilmRollControllerTest do
     %{user: user_fixture()}
   end
 
-  @create_attrs %{name: "some name", description: "some description", reference_id: "some reference_id", frames: 42, expirate_date: ~U[2024-04-21 22:45:00Z]}
-  @update_attrs %{name: "some updated name", description: "some updated description", reference_id: "some updated reference_id", frames: 43, expirate_date: ~U[2024-04-22 22:45:00Z]}
-  @invalid_attrs %{name: nil, description: nil, reference_id: nil, frames: nil, expirate_date: nil}
+  @create_attrs %{
+    name: "some name",
+    description: "some description",
+    reference_id: "some reference_id",
+    frames: 42,
+    expirate_date: ~U[2024-04-21 22:45:00Z]
+  }
+  @update_attrs %{
+    name: "some updated name",
+    description: "some updated description",
+    reference_id: "some updated reference_id",
+    frames: 43,
+    expirate_date: ~U[2024-04-22 22:45:00Z]
+  }
+  @invalid_attrs %{
+    name: nil,
+    description: nil,
+    reference_id: nil,
+    frames: nil,
+    expirate_date: nil
+  }
 
   describe "index" do
     test "lists all film_rolls", %{conn: conn, user: user} do
@@ -66,7 +84,11 @@ defmodule FilmFlowWeb.FilmRollControllerTest do
   describe "edit film_roll" do
     setup [:create_film_roll]
 
-    test "renders form for editing chosen film_roll", %{conn: conn, film_roll: film_roll, user: user} do
+    test "renders form for editing chosen film_roll", %{
+      conn: conn,
+      film_roll: film_roll,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}

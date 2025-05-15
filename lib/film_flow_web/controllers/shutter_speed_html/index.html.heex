@@ -7,7 +7,11 @@
   </:actions>
 </.header>
 
-<.table id="shutter_speed" rows={@shutter_speed_collection} row_click={&JS.navigate(~p"/shutter_speed/#{&1}")}>
+<.table
+  id="shutter_speed"
+  rows={@shutter_speed_collection}
+  row_click={&JS.navigate(~p"/shutter_speed/#{&1}")}
+>
   <:col :let={shutter_speed} label="Value"><%= shutter_speed.value %></:col>
   <:action :let={shutter_speed}>
     <div class="sr-only">

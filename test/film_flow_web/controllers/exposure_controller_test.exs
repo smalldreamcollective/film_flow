@@ -8,9 +8,27 @@ defmodule FilmFlowWeb.ExposureControllerTest do
     %{user: user_fixture()}
   end
 
-  @create_attrs %{frame: 42, subject: "some subject", date_exposed: ~U[2024-04-21 23:04:00Z], lighting_condition: "some lighting_condition", notes: "some notes"}
-  @update_attrs %{frame: 43, subject: "some updated subject", date_exposed: ~U[2024-04-22 23:04:00Z], lighting_condition: "some updated lighting_condition", notes: "some updated notes"}
-  @invalid_attrs %{frame: nil, subject: nil, date_exposed: nil, lighting_condition: nil, notes: nil}
+  @create_attrs %{
+    frame: 42,
+    subject: "some subject",
+    date_exposed: ~U[2024-04-21 23:04:00Z],
+    lighting_condition: "some lighting_condition",
+    notes: "some notes"
+  }
+  @update_attrs %{
+    frame: 43,
+    subject: "some updated subject",
+    date_exposed: ~U[2024-04-22 23:04:00Z],
+    lighting_condition: "some updated lighting_condition",
+    notes: "some updated notes"
+  }
+  @invalid_attrs %{
+    frame: nil,
+    subject: nil,
+    date_exposed: nil,
+    lighting_condition: nil,
+    notes: nil
+  }
 
   describe "index" do
     test "lists all exposures", %{conn: conn, user: user} do

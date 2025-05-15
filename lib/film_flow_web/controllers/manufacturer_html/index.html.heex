@@ -7,7 +7,11 @@
   </:actions>
 </.header>
 
-<.table id="manufacturers" rows={@manufacturers} row_click={&JS.navigate(~p"/manufacturers/#{&1}")}>
+<.table
+  id="manufacturers"
+  rows={@manufacturers}
+  row_click={&JS.navigate(~p"/manufacturers/#{&1}")}
+>
   <:col :let={manufacturer} label="Name"><%= manufacturer.name %></:col>
   <:col :let={manufacturer} label="Url"><%= manufacturer.url %></:col>
   <:action :let={manufacturer}>
