@@ -8,11 +8,18 @@ config :bcrypt_elixir, :log_rounds, 1
 # The MIX_TEST_PARTITION environment variable can be used
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
+
+# For CI, DATABASE_URL is preferred. For local, allow individual vars or defaults.
+# The default password is set to "password" to align with common CI/service setups.
 config :film_flow, FilmFlow.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "film_flow_test#{System.get_env("MIX_TEST_PARTITION")}",
+  # This will be used by CI
+  url: System.get_env("DATABASE_URL"),
+  username: System.get_env("PGUSER") || "postgres",
+  # Default to "password"
+  password: System.get_env("PGPASSWORD") || "password",
+  hostname: System.get_env("PGHOST") || "localhost",
+  database:
+    System.get_env("PGDATABASE") || "film_flow_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: System.schedulers_online() * 2
 
