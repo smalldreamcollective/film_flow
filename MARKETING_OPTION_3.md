@@ -7,6 +7,4 @@ Streamline your analog process and unlock new levels of organization with FilmFl
 *   **Organize Your Vision:** Manage projects, gear, and shooting sessions with ease.
 *   **Shoot Smarter:** Leverage built-in tools like the Exposure Guide for technical precision.
 
-**Spend less time searching, more time shooting. Try FilmFlow.**
-
-
+**Spend less time searching, more time shooting. Try FilmFlow.** 
