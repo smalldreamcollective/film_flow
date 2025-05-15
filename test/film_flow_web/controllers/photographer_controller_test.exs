@@ -8,8 +8,16 @@ defmodule FilmFlowWeb.PhotographerControllerTest do
     %{user: user_fixture()}
   end
 
-  @create_attrs %{first_name: "some first_name", middle_name: "some middle_name", last_name: "some last_name"}
-  @update_attrs %{first_name: "some updated first_name", middle_name: "some updated middle_name", last_name: "some updated last_name"}
+  @create_attrs %{
+    first_name: "some first_name",
+    middle_name: "some middle_name",
+    last_name: "some last_name"
+  }
+  @update_attrs %{
+    first_name: "some updated first_name",
+    middle_name: "some updated middle_name",
+    last_name: "some updated last_name"
+  }
   @invalid_attrs %{first_name: nil, middle_name: nil, last_name: nil}
 
   describe "index" do
@@ -66,7 +74,11 @@ defmodule FilmFlowWeb.PhotographerControllerTest do
   describe "edit photographer" do
     setup [:create_photographer]
 
-    test "renders form for editing chosen photographer", %{conn: conn, photographer: photographer, user: user} do
+    test "renders form for editing chosen photographer", %{
+      conn: conn,
+      photographer: photographer,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -93,7 +105,11 @@ defmodule FilmFlowWeb.PhotographerControllerTest do
       assert html_response(conn, 200) =~ "some updated first_name"
     end
 
-    test "renders errors when data is invalid", %{conn: conn, photographer: photographer, user: user} do
+    test "renders errors when data is invalid", %{
+      conn: conn,
+      photographer: photographer,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}

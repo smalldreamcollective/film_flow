@@ -66,7 +66,11 @@ defmodule FilmFlowWeb.FilmTypeControllerTest do
   describe "edit film_type" do
     setup [:create_film_type]
 
-    test "renders form for editing chosen film_type", %{conn: conn, film_type: film_type, user: user} do
+    test "renders form for editing chosen film_type", %{
+      conn: conn,
+      film_type: film_type,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}

@@ -8,9 +8,27 @@ defmodule FilmFlowWeb.FilmBackControllerTest do
     %{user: user_fixture()}
   end
 
-  @create_attrs %{description: "some description", model: "some model", years: "some years", url_manual: "some url_manual", url_additional_info: "some url_additional_info"}
-  @update_attrs %{description: "some updated description", model: "some updated model", years: "some updated years", url_manual: "some updated url_manual", url_additional_info: "some updated url_additional_info"}
-  @invalid_attrs %{description: nil, model: nil, years: nil, url_manual: nil, url_additional_info: nil}
+  @create_attrs %{
+    description: "some description",
+    model: "some model",
+    years: "some years",
+    url_manual: "some url_manual",
+    url_additional_info: "some url_additional_info"
+  }
+  @update_attrs %{
+    description: "some updated description",
+    model: "some updated model",
+    years: "some updated years",
+    url_manual: "some updated url_manual",
+    url_additional_info: "some updated url_additional_info"
+  }
+  @invalid_attrs %{
+    description: nil,
+    model: nil,
+    years: nil,
+    url_manual: nil,
+    url_additional_info: nil
+  }
 
   describe "index" do
     test "lists all film_backs", %{conn: conn, user: user} do
@@ -66,7 +84,11 @@ defmodule FilmFlowWeb.FilmBackControllerTest do
   describe "edit film_back" do
     setup [:create_film_back]
 
-    test "renders form for editing chosen film_back", %{conn: conn, film_back: film_back, user: user} do
+    test "renders form for editing chosen film_back", %{
+      conn: conn,
+      film_back: film_back,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}

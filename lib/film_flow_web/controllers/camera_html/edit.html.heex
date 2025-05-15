@@ -3,6 +3,10 @@
   <:subtitle>Use this form to manage camera records in your database.</:subtitle>
 </.header>
 
-<.camera_form changeset={@changeset} action={~p"/cameras/#{@camera}"} manufacturers={@manufacturers} />
+<.camera_form
+  changeset={@changeset}
+  action={~p"/cameras/#{@camera}"}
+  manufacturers={@manufacturers}
+/>
 
 <.back navigate={~p"/cameras"}>Back to cameras</.back>

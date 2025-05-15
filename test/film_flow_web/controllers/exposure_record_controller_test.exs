@@ -8,9 +8,27 @@ defmodule FilmFlowWeb.ExposureRecordControllerTest do
     %{user: user_fixture()}
   end
 
-  @create_attrs %{reference_id: "some reference_id", project_name: "some project_name", date_loaded: ~U[2024-04-21 21:57:00Z], date_exposed: ~U[2024-04-21 21:57:00Z], concept: "some concept"}
-  @update_attrs %{reference_id: "some updated reference_id", project_name: "some updated project_name", date_loaded: ~U[2024-04-22 21:57:00Z], date_exposed: ~U[2024-04-22 21:57:00Z], concept: "some updated concept"}
-  @invalid_attrs %{reference_id: nil, project_name: nil, date_loaded: nil, date_exposed: nil, concept: nil}
+  @create_attrs %{
+    reference_id: "some reference_id",
+    project_name: "some project_name",
+    date_loaded: ~U[2024-04-21 21:57:00Z],
+    date_exposed: ~U[2024-04-21 21:57:00Z],
+    concept: "some concept"
+  }
+  @update_attrs %{
+    reference_id: "some updated reference_id",
+    project_name: "some updated project_name",
+    date_loaded: ~U[2024-04-22 21:57:00Z],
+    date_exposed: ~U[2024-04-22 21:57:00Z],
+    concept: "some updated concept"
+  }
+  @invalid_attrs %{
+    reference_id: nil,
+    project_name: nil,
+    date_loaded: nil,
+    date_exposed: nil,
+    concept: nil
+  }
 
   describe "index" do
     test "lists all exposure_records", %{conn: conn, user: user} do
@@ -66,7 +84,11 @@ defmodule FilmFlowWeb.ExposureRecordControllerTest do
   describe "edit exposure_record" do
     setup [:create_exposure_record]
 
-    test "renders form for editing chosen exposure_record", %{conn: conn, exposure_record: exposure_record, user: user} do
+    test "renders form for editing chosen exposure_record", %{
+      conn: conn,
+      exposure_record: exposure_record,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -80,7 +102,11 @@ defmodule FilmFlowWeb.ExposureRecordControllerTest do
   describe "update exposure_record" do
     setup [:create_exposure_record]
 
-    test "redirects when data is valid", %{conn: conn, exposure_record: exposure_record, user: user} do
+    test "redirects when data is valid", %{
+      conn: conn,
+      exposure_record: exposure_record,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -93,7 +119,11 @@ defmodule FilmFlowWeb.ExposureRecordControllerTest do
       assert html_response(conn, 200) =~ "some updated reference_id"
     end
 
-    test "renders errors when data is invalid", %{conn: conn, exposure_record: exposure_record, user: user} do
+    test "renders errors when data is invalid", %{
+      conn: conn,
+      exposure_record: exposure_record,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -107,7 +137,11 @@ defmodule FilmFlowWeb.ExposureRecordControllerTest do
   describe "delete exposure_record" do
     setup [:create_exposure_record]
 
-    test "deletes chosen exposure_record", %{conn: conn, exposure_record: exposure_record, user: user} do
+    test "deletes chosen exposure_record", %{
+      conn: conn,
+      exposure_record: exposure_record,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}

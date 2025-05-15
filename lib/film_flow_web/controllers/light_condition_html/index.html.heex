@@ -7,7 +7,11 @@
   </:actions>
 </.header>
 
-<.table id="light_conditions" rows={@light_conditions} row_click={&JS.navigate(~p"/light_conditions/#{&1}")}>
+<.table
+  id="light_conditions"
+  rows={@light_conditions}
+  row_click={&JS.navigate(~p"/light_conditions/#{&1}")}
+>
   <:col :let={light_condition} label="Name"><%= light_condition.name %></:col>
   <:col :let={light_condition} label="Description"><%= light_condition.description %></:col>
   <:col :let={light_condition} label="Url icon"><%= light_condition.url_icon %></:col>
@@ -18,7 +22,11 @@
     <.link navigate={~p"/light_conditions/#{light_condition}/edit"}>Edit</.link>
   </:action>
   <:action :let={light_condition}>
-    <.link href={~p"/light_conditions/#{light_condition}"} method="delete" data-confirm="Are you sure?">
+    <.link
+      href={~p"/light_conditions/#{light_condition}"}
+      method="delete"
+      data-confirm="Are you sure?"
+    >
       Delete
     </.link>
   </:action>

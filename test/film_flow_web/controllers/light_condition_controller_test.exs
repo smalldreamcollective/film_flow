@@ -9,7 +9,11 @@ defmodule FilmFlowWeb.LightConditionControllerTest do
   end
 
   @create_attrs %{name: "some name", description: "some description", url_icon: "some url_icon"}
-  @update_attrs %{name: "some updated name", description: "some updated description", url_icon: "some updated url_icon"}
+  @update_attrs %{
+    name: "some updated name",
+    description: "some updated description",
+    url_icon: "some updated url_icon"
+  }
   @invalid_attrs %{name: nil, description: nil, url_icon: nil}
 
   describe "index" do
@@ -66,7 +70,11 @@ defmodule FilmFlowWeb.LightConditionControllerTest do
   describe "edit light_condition" do
     setup [:create_light_condition]
 
-    test "renders form for editing chosen light_condition", %{conn: conn, light_condition: light_condition, user: user} do
+    test "renders form for editing chosen light_condition", %{
+      conn: conn,
+      light_condition: light_condition,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -80,7 +88,11 @@ defmodule FilmFlowWeb.LightConditionControllerTest do
   describe "update light_condition" do
     setup [:create_light_condition]
 
-    test "redirects when data is valid", %{conn: conn, light_condition: light_condition, user: user} do
+    test "redirects when data is valid", %{
+      conn: conn,
+      light_condition: light_condition,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -93,7 +105,11 @@ defmodule FilmFlowWeb.LightConditionControllerTest do
       assert html_response(conn, 200) =~ "some updated name"
     end
 
-    test "renders errors when data is invalid", %{conn: conn, light_condition: light_condition, user: user} do
+    test "renders errors when data is invalid", %{
+      conn: conn,
+      light_condition: light_condition,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -107,7 +123,11 @@ defmodule FilmFlowWeb.LightConditionControllerTest do
   describe "delete light_condition" do
     setup [:create_light_condition]
 
-    test "deletes chosen light_condition", %{conn: conn, light_condition: light_condition, user: user} do
+    test "deletes chosen light_condition", %{
+      conn: conn,
+      light_condition: light_condition,
+      user: user
+    } do
       conn =
         post(conn, ~p"/users/log_in", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
