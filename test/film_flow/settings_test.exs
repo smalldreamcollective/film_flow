@@ -22,10 +22,13 @@ defmodule FilmFlow.SettingsTest do
 
     test "create_camera/1 with valid data creates a camera" do
       valid_attrs = %{name: "some name", brand: "some brand", model: "some model"}
+      manufacturer = manufacturer_fixture(%{name: "some brand"})
+      valid_attrs_with_id = Map.put(valid_attrs, :manufacturer_id, manufacturer.id)
 
-      assert {:ok, %Camera{} = camera} = Settings.create_camera(valid_attrs)
+      assert {:ok, %Camera{} = camera} = Settings.create_camera(valid_attrs_with_id)
       assert camera.name == "some name"
-      assert camera.brand == "some brand"
+      camera_with_manufacturer = FilmFlow.Repo.preload(camera, :manufacturer)
+      assert camera_with_manufacturer.manufacturer.name == "some brand"
       assert camera.model == "some model"
     end
 
@@ -35,11 +38,20 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_camera/2 with valid data updates the camera" do
       camera = camera_fixture()
-      update_attrs = %{name: "some updated name", brand: "some updated brand", model: "some updated model"}
 
-      assert {:ok, %Camera{} = camera} = Settings.update_camera(camera, update_attrs)
+      update_attrs = %{
+        name: "some updated name",
+        brand: "some updated brand",
+        model: "some updated model"
+      }
+
+      manufacturer = manufacturer_fixture(%{name: "some updated brand"})
+      update_attrs_with_id = Map.put(update_attrs, :manufacturer_id, manufacturer.id)
+
+      assert {:ok, %Camera{} = camera} = Settings.update_camera(camera, update_attrs_with_id)
       assert camera.name == "some updated name"
-      assert camera.brand == "some updated brand"
+      camera_with_manufacturer = FilmFlow.Repo.preload(camera, :manufacturer)
+      assert camera_with_manufacturer.manufacturer.name == "some updated brand"
       assert camera.model == "some updated model"
     end
 
@@ -94,14 +106,19 @@ defmodule FilmFlow.SettingsTest do
       manufacturer = manufacturer_fixture()
       update_attrs = %{name: "some updated name", url: "some updated url"}
 
-      assert {:ok, %Manufacturer{} = manufacturer} = Settings.update_manufacturer(manufacturer, update_attrs)
+      assert {:ok, %Manufacturer{} = manufacturer} =
+               Settings.update_manufacturer(manufacturer, update_attrs)
+
       assert manufacturer.name == "some updated name"
       assert manufacturer.url == "some updated url"
     end
 
     test "update_manufacturer/2 with invalid data returns error changeset" do
       manufacturer = manufacturer_fixture()
-      assert {:error, %Ecto.Changeset{}} = Settings.update_manufacturer(manufacturer, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Settings.update_manufacturer(manufacturer, @invalid_attrs)
+
       assert manufacturer == Settings.get_manufacturer!(manufacturer.id)
     end
 
@@ -122,7 +139,13 @@ defmodule FilmFlow.SettingsTest do
 
     import FilmFlow.SettingsFixtures
 
-    @invalid_attrs %{description: nil, model: nil, years: nil, url_manual: nil, url_additional_info: nil}
+    @invalid_attrs %{
+      description: nil,
+      model: nil,
+      years: nil,
+      url_manual: nil,
+      url_additional_info: nil
+    }
 
     test "list_lenses/0 returns all lenses" do
       lens = lens_fixture()
@@ -135,7 +158,16 @@ defmodule FilmFlow.SettingsTest do
     end
 
     test "create_lens/1 with valid data creates a lens" do
-      valid_attrs = %{description: "some description", model: "some model", years: "some years", url_manual: "some url_manual", url_additional_info: "some url_additional_info"}
+      manufacturer = manufacturer_fixture()
+
+      valid_attrs = %{
+        description: "some description",
+        model: "some model",
+        years: "some years",
+        url_manual: "some url_manual",
+        url_additional_info: "some url_additional_info",
+        manufacturer_id: manufacturer.id
+      }
 
       assert {:ok, %Lens{} = lens} = Settings.create_lens(valid_attrs)
       assert lens.description == "some description"
@@ -151,7 +183,14 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_lens/2 with valid data updates the lens" do
       lens = lens_fixture()
-      update_attrs = %{description: "some updated description", model: "some updated model", years: "some updated years", url_manual: "some updated url_manual", url_additional_info: "some updated url_additional_info"}
+
+      update_attrs = %{
+        description: "some updated description",
+        model: "some updated model",
+        years: "some updated years",
+        url_manual: "some updated url_manual",
+        url_additional_info: "some updated url_additional_info"
+      }
 
       assert {:ok, %Lens{} = lens} = Settings.update_lens(lens, update_attrs)
       assert lens.description == "some updated description"
@@ -435,13 +474,18 @@ defmodule FilmFlow.SettingsTest do
       shutter_speed = shutter_speed_fixture()
       update_attrs = %{value: "some updated value"}
 
-      assert {:ok, %ShutterSpeed{} = shutter_speed} = Settings.update_shutter_speed(shutter_speed, update_attrs)
+      assert {:ok, %ShutterSpeed{} = shutter_speed} =
+               Settings.update_shutter_speed(shutter_speed, update_attrs)
+
       assert shutter_speed.value == "some updated value"
     end
 
     test "update_shutter_speed/2 with invalid data returns error changeset" do
       shutter_speed = shutter_speed_fixture()
-      assert {:error, %Ecto.Changeset{}} = Settings.update_shutter_speed(shutter_speed, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Settings.update_shutter_speed(shutter_speed, @invalid_attrs)
+
       assert shutter_speed == Settings.get_shutter_speed!(shutter_speed.id)
     end
 
@@ -516,11 +560,51 @@ defmodule FilmFlow.SettingsTest do
 
     import FilmFlow.SettingsFixtures
 
-    @invalid_attrs %{description: nil, model: nil, years: nil, url_manual: nil, url_addtional_info: nil}
+    @invalid_attrs %{
+      description: nil,
+      model: nil,
+      years: nil,
+      url_manual: nil,
+      url_additional_info: nil
+    }
 
     test "list_tripods/0 returns all tripods" do
-      tripod = tripod_fixture()
-      assert Settings.list_tripods() == [tripod]
+      tripod_from_fixture = tripod_fixture()
+      listed_tripods = Settings.list_tripods()
+
+      # Ensure something is returned
+      assert length(listed_tripods) >= 1
+
+      # Fetch the tripod created by the fixture, ensuring its associations are loaded
+      # in the same way that list_tripods() might load them (or not load them).
+      # To ensure an apples-to-apples comparison, we fetch from DB and then explicitly preload manufacturer.
+      # However, Settings.list_tripods() ALREADY preloads manufacturer, as seen in the error output.
+      # So, we need to ensure our fixture-created-then-refetched tripod also has it preloaded.
+
+      refetched_tripod_with_manufacturer =
+        FilmFlow.Repo.get(FilmFlow.Settings.Tripod, tripod_from_fixture.id)
+        |> FilmFlow.Repo.preload(:manufacturer)
+
+      # Now, we find this specific tripod in the list returned by Settings.list_tripods()
+      # and compare it. This is still a bit indirect.
+      # A cleaner test might be to assert that the tripod created by the fixture is *a member* of the list.
+      # Or, if list_tripods() is guaranteed to return them in a certain order or only one exists.
+
+      # Given the error, Settings.list_tripods() returns a list where each tripod has :manufacturer preloaded.
+      # The [refetched_tripod_with_manufacturer] on the right must also have :manufacturer preloaded.
+
+      # Simpler: if the test environment is clean, there should only be one.
+      # Let's assume a clean DB for this test for simplicity, or that `tripod_fixture` is the only one added.
+      # The previous error showed list_tripods() returning the fixture with manufacturer loaded.
+      # The fixture itself (even refetched by ID) doesn't automatically preload.
+
+      # Correct approach: Ensure the tripod on the right side of the comparison has its manufacturer preloaded.
+      tripod_to_compare = FilmFlow.Repo.preload(refetched_tripod_with_manufacturer, :manufacturer)
+
+      # The problem might be that Settings.list_tripods() returns a list, and we are comparing it to a list with ONE item.
+      # If there could be other tripods, this test is brittle.
+      # Assuming for this test, only the one from the fixture should exist.
+      assert Settings.list_tripods() == [tripod_to_compare]
     end
 
     test "get_tripod!/1 returns the tripod with given id" do
@@ -529,14 +613,23 @@ defmodule FilmFlow.SettingsTest do
     end
 
     test "create_tripod/1 with valid data creates a tripod" do
-      valid_attrs = %{description: "some description", model: "some model", years: "some years", url_manual: "some url_manual", url_addtional_info: "some url_addtional_info"}
+      manufacturer = manufacturer_fixture()
+
+      valid_attrs = %{
+        description: "some description",
+        model: "some model",
+        years: "some years",
+        url_manual: "some url_manual",
+        url_additional_info: "some url_additional_info",
+        manufacturer_id: manufacturer.id
+      }
 
       assert {:ok, %Tripod{} = tripod} = Settings.create_tripod(valid_attrs)
       assert tripod.description == "some description"
       assert tripod.model == "some model"
       assert tripod.years == "some years"
       assert tripod.url_manual == "some url_manual"
-      assert tripod.url_addtional_info == "some url_addtional_info"
+      assert tripod.url_additional_info == "some url_additional_info"
     end
 
     test "create_tripod/1 with invalid data returns error changeset" do
@@ -545,14 +638,23 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_tripod/2 with valid data updates the tripod" do
       tripod = tripod_fixture()
-      update_attrs = %{description: "some updated description", model: "some updated model", years: "some updated years", url_manual: "some updated url_manual", url_addtional_info: "some updated url_addtional_info"}
+      manufacturer = manufacturer_fixture()
+
+      update_attrs = %{
+        description: "some updated description",
+        model: "some updated model",
+        years: "some updated years",
+        url_manual: "some updated url_manual",
+        url_additional_info: "some updated url_additional_info",
+        manufacturer_id: manufacturer.id
+      }
 
       assert {:ok, %Tripod{} = tripod} = Settings.update_tripod(tripod, update_attrs)
       assert tripod.description == "some updated description"
       assert tripod.model == "some updated model"
       assert tripod.years == "some updated years"
       assert tripod.url_manual == "some updated url_manual"
-      assert tripod.url_addtional_info == "some updated url_addtional_info"
+      assert tripod.url_additional_info == "some updated url_additional_info"
     end
 
     test "update_tripod/2 with invalid data returns error changeset" do
@@ -647,7 +749,11 @@ defmodule FilmFlow.SettingsTest do
     end
 
     test "create_photographer/1 with valid data creates a photographer" do
-      valid_attrs = %{first_name: "some first_name", middle_name: "some middle_name", last_name: "some last_name"}
+      valid_attrs = %{
+        first_name: "some first_name",
+        middle_name: "some middle_name",
+        last_name: "some last_name"
+      }
 
       assert {:ok, %Photographer{} = photographer} = Settings.create_photographer(valid_attrs)
       assert photographer.first_name == "some first_name"
@@ -661,9 +767,16 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_photographer/2 with valid data updates the photographer" do
       photographer = photographer_fixture()
-      update_attrs = %{first_name: "some updated first_name", middle_name: "some updated middle_name", last_name: "some updated last_name"}
 
-      assert {:ok, %Photographer{} = photographer} = Settings.update_photographer(photographer, update_attrs)
+      update_attrs = %{
+        first_name: "some updated first_name",
+        middle_name: "some updated middle_name",
+        last_name: "some updated last_name"
+      }
+
+      assert {:ok, %Photographer{} = photographer} =
+               Settings.update_photographer(photographer, update_attrs)
+
       assert photographer.first_name == "some updated first_name"
       assert photographer.middle_name == "some updated middle_name"
       assert photographer.last_name == "some updated last_name"
@@ -671,7 +784,10 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_photographer/2 with invalid data returns error changeset" do
       photographer = photographer_fixture()
-      assert {:error, %Ecto.Changeset{}} = Settings.update_photographer(photographer, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Settings.update_photographer(photographer, @invalid_attrs)
+
       assert photographer == Settings.get_photographer!(photographer.id)
     end
 
@@ -746,7 +862,13 @@ defmodule FilmFlow.SettingsTest do
 
     import FilmFlow.SettingsFixtures
 
-    @invalid_attrs %{reference_id: nil, project_name: nil, date_loaded: nil, date_exposed: nil, concept: nil}
+    @invalid_attrs %{
+      reference_id: nil,
+      project_name: nil,
+      date_loaded: nil,
+      date_exposed: nil,
+      concept: nil
+    }
 
     test "list_exposure_records/0 returns all exposure_records" do
       exposure_record = exposure_record_fixture()
@@ -759,9 +881,17 @@ defmodule FilmFlow.SettingsTest do
     end
 
     test "create_exposure_record/1 with valid data creates a exposure_record" do
-      valid_attrs = %{reference_id: "some reference_id", project_name: "some project_name", date_loaded: ~U[2024-04-21 21:57:00Z], date_exposed: ~U[2024-04-21 21:57:00Z], concept: "some concept"}
+      valid_attrs = %{
+        reference_id: "some reference_id",
+        project_name: "some project_name",
+        date_loaded: ~U[2024-04-21 21:57:00Z],
+        date_exposed: ~U[2024-04-21 21:57:00Z],
+        concept: "some concept"
+      }
 
-      assert {:ok, %ExposureRecord{} = exposure_record} = Settings.create_exposure_record(valid_attrs)
+      assert {:ok, %ExposureRecord{} = exposure_record} =
+               Settings.create_exposure_record(valid_attrs)
+
       assert exposure_record.reference_id == "some reference_id"
       assert exposure_record.project_name == "some project_name"
       assert exposure_record.date_loaded == ~U[2024-04-21 21:57:00Z]
@@ -775,9 +905,18 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_exposure_record/2 with valid data updates the exposure_record" do
       exposure_record = exposure_record_fixture()
-      update_attrs = %{reference_id: "some updated reference_id", project_name: "some updated project_name", date_loaded: ~U[2024-04-22 21:57:00Z], date_exposed: ~U[2024-04-22 21:57:00Z], concept: "some updated concept"}
 
-      assert {:ok, %ExposureRecord{} = exposure_record} = Settings.update_exposure_record(exposure_record, update_attrs)
+      update_attrs = %{
+        reference_id: "some updated reference_id",
+        project_name: "some updated project_name",
+        date_loaded: ~U[2024-04-22 21:57:00Z],
+        date_exposed: ~U[2024-04-22 21:57:00Z],
+        concept: "some updated concept"
+      }
+
+      assert {:ok, %ExposureRecord{} = exposure_record} =
+               Settings.update_exposure_record(exposure_record, update_attrs)
+
       assert exposure_record.reference_id == "some updated reference_id"
       assert exposure_record.project_name == "some updated project_name"
       assert exposure_record.date_loaded == ~U[2024-04-22 21:57:00Z]
@@ -787,14 +926,20 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_exposure_record/2 with invalid data returns error changeset" do
       exposure_record = exposure_record_fixture()
-      assert {:error, %Ecto.Changeset{}} = Settings.update_exposure_record(exposure_record, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Settings.update_exposure_record(exposure_record, @invalid_attrs)
+
       assert exposure_record == Settings.get_exposure_record!(exposure_record.id)
     end
 
     test "delete_exposure_record/1 deletes the exposure_record" do
       exposure_record = exposure_record_fixture()
       assert {:ok, %ExposureRecord{}} = Settings.delete_exposure_record(exposure_record)
-      assert_raise Ecto.NoResultsError, fn -> Settings.get_exposure_record!(exposure_record.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Settings.get_exposure_record!(exposure_record.id)
+      end
     end
 
     test "change_exposure_record/1 returns a exposure_record changeset" do
@@ -808,7 +953,13 @@ defmodule FilmFlow.SettingsTest do
 
     import FilmFlow.SettingsFixtures
 
-    @invalid_attrs %{description: nil, model: nil, years: nil, url_manual: nil, url_additional_info: nil}
+    @invalid_attrs %{
+      description: nil,
+      model: nil,
+      years: nil,
+      url_manual: nil,
+      url_additional_info: nil
+    }
 
     test "list_filters/0 returns all filters" do
       filter = filter_fixture()
@@ -821,7 +972,13 @@ defmodule FilmFlow.SettingsTest do
     end
 
     test "create_filter/1 with valid data creates a filter" do
-      valid_attrs = %{description: "some description", model: "some model", years: "some years", url_manual: "some url_manual", url_additional_info: "some url_additional_info"}
+      valid_attrs = %{
+        description: "some description",
+        model: "some model",
+        years: "some years",
+        url_manual: "some url_manual",
+        url_additional_info: "some url_additional_info"
+      }
 
       assert {:ok, %Filter{} = filter} = Settings.create_filter(valid_attrs)
       assert filter.description == "some description"
@@ -837,7 +994,14 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_filter/2 with valid data updates the filter" do
       filter = filter_fixture()
-      update_attrs = %{description: "some updated description", model: "some updated model", years: "some updated years", url_manual: "some updated url_manual", url_additional_info: "some updated url_additional_info"}
+
+      update_attrs = %{
+        description: "some updated description",
+        model: "some updated model",
+        years: "some updated years",
+        url_manual: "some updated url_manual",
+        url_additional_info: "some updated url_additional_info"
+      }
 
       assert {:ok, %Filter{} = filter} = Settings.update_filter(filter, update_attrs)
       assert filter.description == "some updated description"
@@ -870,7 +1034,13 @@ defmodule FilmFlow.SettingsTest do
 
     import FilmFlow.SettingsFixtures
 
-    @invalid_attrs %{description: nil, model: nil, years: nil, url_manual: nil, url_additional_info: nil}
+    @invalid_attrs %{
+      description: nil,
+      model: nil,
+      years: nil,
+      url_manual: nil,
+      url_additional_info: nil
+    }
 
     test "list_holders/0 returns all holders" do
       holder = holder_fixture()
@@ -883,7 +1053,13 @@ defmodule FilmFlow.SettingsTest do
     end
 
     test "create_holder/1 with valid data creates a holder" do
-      valid_attrs = %{description: "some description", model: "some model", years: "some years", url_manual: "some url_manual", url_additional_info: "some url_additional_info"}
+      valid_attrs = %{
+        description: "some description",
+        model: "some model",
+        years: "some years",
+        url_manual: "some url_manual",
+        url_additional_info: "some url_additional_info"
+      }
 
       assert {:ok, %Holder{} = holder} = Settings.create_holder(valid_attrs)
       assert holder.description == "some description"
@@ -899,7 +1075,14 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_holder/2 with valid data updates the holder" do
       holder = holder_fixture()
-      update_attrs = %{description: "some updated description", model: "some updated model", years: "some updated years", url_manual: "some updated url_manual", url_additional_info: "some updated url_additional_info"}
+
+      update_attrs = %{
+        description: "some updated description",
+        model: "some updated model",
+        years: "some updated years",
+        url_manual: "some updated url_manual",
+        url_additional_info: "some updated url_additional_info"
+      }
 
       assert {:ok, %Holder{} = holder} = Settings.update_holder(holder, update_attrs)
       assert holder.description == "some updated description"
@@ -932,7 +1115,13 @@ defmodule FilmFlow.SettingsTest do
 
     import FilmFlow.SettingsFixtures
 
-    @invalid_attrs %{description: nil, model: nil, years: nil, url_manual: nil, url_additional_info: nil}
+    @invalid_attrs %{
+      description: nil,
+      model: nil,
+      years: nil,
+      url_manual: nil,
+      url_additional_info: nil
+    }
 
     test "list_film_backs/0 returns all film_backs" do
       film_back = film_back_fixture()
@@ -945,7 +1134,13 @@ defmodule FilmFlow.SettingsTest do
     end
 
     test "create_film_back/1 with valid data creates a film_back" do
-      valid_attrs = %{description: "some description", model: "some model", years: "some years", url_manual: "some url_manual", url_additional_info: "some url_additional_info"}
+      valid_attrs = %{
+        description: "some description",
+        model: "some model",
+        years: "some years",
+        url_manual: "some url_manual",
+        url_additional_info: "some url_additional_info"
+      }
 
       assert {:ok, %FilmBack{} = film_back} = Settings.create_film_back(valid_attrs)
       assert film_back.description == "some description"
@@ -961,7 +1156,14 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_film_back/2 with valid data updates the film_back" do
       film_back = film_back_fixture()
-      update_attrs = %{description: "some updated description", model: "some updated model", years: "some updated years", url_manual: "some updated url_manual", url_additional_info: "some updated url_additional_info"}
+
+      update_attrs = %{
+        description: "some updated description",
+        model: "some updated model",
+        years: "some updated years",
+        url_manual: "some updated url_manual",
+        url_additional_info: "some updated url_additional_info"
+      }
 
       assert {:ok, %FilmBack{} = film_back} = Settings.update_film_back(film_back, update_attrs)
       assert film_back.description == "some updated description"
@@ -1007,9 +1209,15 @@ defmodule FilmFlow.SettingsTest do
     end
 
     test "create_light_condition/1 with valid data creates a light_condition" do
-      valid_attrs = %{name: "some name", description: "some description", url_icon: "some url_icon"}
+      valid_attrs = %{
+        name: "some name",
+        description: "some description",
+        url_icon: "some url_icon"
+      }
 
-      assert {:ok, %LightCondition{} = light_condition} = Settings.create_light_condition(valid_attrs)
+      assert {:ok, %LightCondition{} = light_condition} =
+               Settings.create_light_condition(valid_attrs)
+
       assert light_condition.name == "some name"
       assert light_condition.description == "some description"
       assert light_condition.url_icon == "some url_icon"
@@ -1021,9 +1229,16 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_light_condition/2 with valid data updates the light_condition" do
       light_condition = light_condition_fixture()
-      update_attrs = %{name: "some updated name", description: "some updated description", url_icon: "some updated url_icon"}
 
-      assert {:ok, %LightCondition{} = light_condition} = Settings.update_light_condition(light_condition, update_attrs)
+      update_attrs = %{
+        name: "some updated name",
+        description: "some updated description",
+        url_icon: "some updated url_icon"
+      }
+
+      assert {:ok, %LightCondition{} = light_condition} =
+               Settings.update_light_condition(light_condition, update_attrs)
+
       assert light_condition.name == "some updated name"
       assert light_condition.description == "some updated description"
       assert light_condition.url_icon == "some updated url_icon"
@@ -1031,14 +1246,20 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_light_condition/2 with invalid data returns error changeset" do
       light_condition = light_condition_fixture()
-      assert {:error, %Ecto.Changeset{}} = Settings.update_light_condition(light_condition, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Settings.update_light_condition(light_condition, @invalid_attrs)
+
       assert light_condition == Settings.get_light_condition!(light_condition.id)
     end
 
     test "delete_light_condition/1 deletes the light_condition" do
       light_condition = light_condition_fixture()
       assert {:ok, %LightCondition{}} = Settings.delete_light_condition(light_condition)
-      assert_raise Ecto.NoResultsError, fn -> Settings.get_light_condition!(light_condition.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Settings.get_light_condition!(light_condition.id)
+      end
     end
 
     test "change_light_condition/1 returns a light_condition changeset" do
@@ -1052,7 +1273,13 @@ defmodule FilmFlow.SettingsTest do
 
     import FilmFlow.SettingsFixtures
 
-    @invalid_attrs %{name: nil, description: nil, reference_id: nil, frames: nil, expirate_date: nil}
+    @invalid_attrs %{
+      name: nil,
+      description: nil,
+      reference_id: nil,
+      frames: nil,
+      expirate_date: nil
+    }
 
     test "list_film_rolls/0 returns all film_rolls" do
       film_roll = film_roll_fixture()
@@ -1065,7 +1292,13 @@ defmodule FilmFlow.SettingsTest do
     end
 
     test "create_film_roll/1 with valid data creates a film_roll" do
-      valid_attrs = %{name: "some name", description: "some description", reference_id: "some reference_id", frames: 42, expirate_date: ~U[2024-04-21 22:45:00Z]}
+      valid_attrs = %{
+        name: "some name",
+        description: "some description",
+        reference_id: "some reference_id",
+        frames: 42,
+        expirate_date: ~U[2024-04-21 22:45:00Z]
+      }
 
       assert {:ok, %FilmRoll{} = film_roll} = Settings.create_film_roll(valid_attrs)
       assert film_roll.name == "some name"
@@ -1081,7 +1314,14 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_film_roll/2 with valid data updates the film_roll" do
       film_roll = film_roll_fixture()
-      update_attrs = %{name: "some updated name", description: "some updated description", reference_id: "some updated reference_id", frames: 43, expirate_date: ~U[2024-04-22 22:45:00Z]}
+
+      update_attrs = %{
+        name: "some updated name",
+        description: "some updated description",
+        reference_id: "some updated reference_id",
+        frames: 43,
+        expirate_date: ~U[2024-04-22 22:45:00Z]
+      }
 
       assert {:ok, %FilmRoll{} = film_roll} = Settings.update_film_roll(film_roll, update_attrs)
       assert film_roll.name == "some updated name"
@@ -1114,7 +1354,13 @@ defmodule FilmFlow.SettingsTest do
 
     import FilmFlow.SettingsFixtures
 
-    @invalid_attrs %{frame: nil, subject: nil, date_exposed: nil, lighting_condition: nil, notes: nil}
+    @invalid_attrs %{
+      frame: nil,
+      subject: nil,
+      date_exposed: nil,
+      lighting_condition: nil,
+      notes: nil
+    }
 
     test "list_exposures/0 returns all exposures" do
       exposure = exposure_fixture()
@@ -1127,7 +1373,13 @@ defmodule FilmFlow.SettingsTest do
     end
 
     test "create_exposure/1 with valid data creates a exposure" do
-      valid_attrs = %{frame: 42, subject: "some subject", date_exposed: ~U[2024-04-21 23:00:00Z], lighting_condition: "some lighting_condition", notes: "some notes"}
+      valid_attrs = %{
+        frame: 42,
+        subject: "some subject",
+        date_exposed: ~U[2024-04-21 23:00:00Z],
+        lighting_condition: "some lighting_condition",
+        notes: "some notes"
+      }
 
       assert {:ok, %Exposure{} = exposure} = Settings.create_exposure(valid_attrs)
       assert exposure.frame == 42
@@ -1143,7 +1395,14 @@ defmodule FilmFlow.SettingsTest do
 
     test "update_exposure/2 with valid data updates the exposure" do
       exposure = exposure_fixture()
-      update_attrs = %{frame: 43, subject: "some updated subject", date_exposed: ~U[2024-04-22 23:00:00Z], lighting_condition: "some updated lighting_condition", notes: "some updated notes"}
+
+      update_attrs = %{
+        frame: 43,
+        subject: "some updated subject",
+        date_exposed: ~U[2024-04-22 23:00:00Z],
+        lighting_condition: "some updated lighting_condition",
+        notes: "some updated notes"
+      }
 
       assert {:ok, %Exposure{} = exposure} = Settings.update_exposure(exposure, update_attrs)
       assert exposure.frame == 43
